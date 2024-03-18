@@ -25,4 +25,8 @@ public class OrderDetail {
     private Double price;
 
     private Float timeApprox;
+
+    private Integer quantity;
+
+    private Integer houseSize;
 }
