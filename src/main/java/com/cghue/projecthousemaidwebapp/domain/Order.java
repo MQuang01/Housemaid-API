@@ -1,6 +1,5 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
-import com.cghue.projecthousemaidwebapp.domain.enumeration.EHouseSize;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,9 +27,6 @@ public class Order {
     private Category category;
 
     private Integer totalTimeApprox;
-
-    @Enumerated(EnumType.STRING)
-    private EHouseSize houseSize;
 
     @Enumerated(EnumType.STRING)
     private EStatusOrder statusOrder;
