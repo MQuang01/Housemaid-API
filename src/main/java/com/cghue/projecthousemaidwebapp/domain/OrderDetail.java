@@ -6,24 +6,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "feed_backs")
+@Entity(name = "order_details")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-
-public class FeedBack {
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private User user;
-
-    private String description;
-
-    private Integer percent;
+    private Order order;
 
     @ManyToOne
-    private Order order;
+    private Job job;
+
+    private Double price;
+
+    private Float timeApprox;
 }
