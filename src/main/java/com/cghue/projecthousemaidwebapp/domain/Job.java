@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.JobResDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,10 +19,14 @@ public class Job {
 
     private String name;
 
-    private String url_Image;
+    private String urlImage;
 
     private Double price;
 
     @ManyToOne
     private Category category;
+
+    public JobResDto toResDto(){
+        return new JobResDto(id, name, urlImage, price, category.toResDto());
+    }
 }
