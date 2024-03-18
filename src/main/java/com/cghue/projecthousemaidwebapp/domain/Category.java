@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,5 +22,9 @@ public class Category {
 
     private String name;
 
-    private String url_Image;
+    private String urlImage;
+
+    public CategoryResDto toResDto() {
+        return new CategoryResDto(id, name, urlImage);
+    }
 }
