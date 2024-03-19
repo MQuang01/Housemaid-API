@@ -1,5 +1,7 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
@@ -25,6 +27,8 @@ public class User {
 
     private String fullName;
 
+    private String urlImage;
+
     private String email;
 
     private String address;
@@ -49,4 +53,35 @@ public class User {
     private EShift shift;
 
     private LocalDate createdAt;
+    //Register Customer
+    public User(String fullName, String urlImage, String email,
+                String address, String phone, LocalDate dob,
+                EGender gender, Boolean isActive,
+                String username, String password) {
+        this.fullName = fullName;
+        this.urlImage = urlImage;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.dob = dob;
+        this.gender = gender;
+        this.isActive = isActive;
+        this.username = username;
+        this.password = password;
+    }
+
+    public UserDetailResDto toUserDetailResDto() {
+        return new UserDetailResDto(
+                this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
+                this.gender.name(), this.username, this.password, this.urlImage,
+                this.shift != null ? this.shift.name() : ""
+        );
+    }
+
+    public ListCustomerResDto toListCustomerResDto() {
+        return new ListCustomerResDto(
+                this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
+                this.gender.name(), this.username, this.urlImage
+        );
+    }
 }
