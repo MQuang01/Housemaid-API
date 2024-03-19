@@ -36,7 +36,11 @@ public class CategoryService implements ICategoryService {
             if(!category.getName().equals(categoryReqDto.getName())){
                 category.setName(categoryReqDto.getName());
             }
-            if(!category.getUrlImage().equals(categoryReqDto.getUrlImage())){
+            if(category.getUrlImage() != null){
+                if(!category.getUrlImage().equals(categoryReqDto.getUrlImage())){
+                    category.setUrlImage(categoryReqDto.getUrlImage());
+                }
+            }else {
                 category.setUrlImage(categoryReqDto.getUrlImage());
             }
             categoryRepository.save(category);

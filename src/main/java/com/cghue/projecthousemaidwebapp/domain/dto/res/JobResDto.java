@@ -13,7 +13,7 @@ import lombok.Setter;
 public class JobResDto {
     private Long id;
     private String name;
-    private String url_Image;
+    private String urlImage;
     private Double price;
     private CategoryResDto category;
 

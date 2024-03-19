@@ -13,5 +13,5 @@ public class CategoryResDto {
 
     private Long id;
     private String name;
-    private String url_Image;
+    private String urlImage;
 }
