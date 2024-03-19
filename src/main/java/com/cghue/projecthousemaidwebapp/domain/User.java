@@ -49,10 +49,4 @@ public class User {
     private EShift shift;
 
     private LocalDate createdAt;
-
-    @OneToMany(mappedBy = "user")
-    private List<Order> listOrder;
-
-    @ManyToOne
-    public Order order;
 }

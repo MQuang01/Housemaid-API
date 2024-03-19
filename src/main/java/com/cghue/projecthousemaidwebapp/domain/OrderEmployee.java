@@ -6,30 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Entity(name = "order_details")
+@Entity(name = "order_employees")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderDetail {
+public class OrderEmployee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     private Order order;
 
     @ManyToOne
-    private Job job;
-
-    private Double price;
-
-    private Float timeApprox;
-
-    private Integer quantity;
-
-    private Integer houseSize;
-
+    @JoinColumn(name = "employee_id")
+    private User employee;
 }
