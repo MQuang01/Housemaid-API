@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Order {
     @ManyToOne
     private Category category;
 
-    private Integer totalTimeApprox;
+    private Float totalTimeApprox;
 
     @Enumerated(EnumType.STRING)
     private EStatusOrder statusOrder;
@@ -37,12 +38,12 @@ public class Order {
     private String currentlyCode;
 
     @OneToMany(mappedBy = "order")
-    private List<User> listEmployee;
+    private List<OrderEmployee> listEmployee;
 
     private LocalDate createdAt;
 
     private LocalDate workDay;
 
-    private Float timeStart;
+    private Time timeStart;
 
 }
