@@ -23,6 +23,8 @@ public class User {
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String urlImage;
+
     private String fullName;
 
     private String email;
@@ -49,4 +51,5 @@ public class User {
     private EShift shift;
 
     private LocalDate createdAt;
+
 }
