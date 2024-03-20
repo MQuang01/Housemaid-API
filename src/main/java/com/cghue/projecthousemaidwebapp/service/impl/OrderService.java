@@ -77,8 +77,19 @@ public class OrderService implements IOrderService {
             }
         }
 
-        createOrderEmployee(order, listEmployee);
+        if(!handleListEmployee(order, listEmployee)) {
+           throw new RuntimeException("Không thể tạo đơn");
+        }
+
         return order.toResDto();
+    }
+
+    private boolean handleListEmployee(Order order, List<User> listEmployee) {
+        if(listEmployee.isEmpty()) {
+            return false;
+        }
+        createOrderEmployee(order, listEmployee);
+        return true;
     }
 
     @Override
