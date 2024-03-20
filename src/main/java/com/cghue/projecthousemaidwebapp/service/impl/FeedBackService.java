@@ -38,7 +38,12 @@ public class FeedBackService implements IFeedBackService {
             feedBack.setDescription(feedBackReqDto.getDescription());
             feedBack.setPercent(feedBackReqDto.getPercent());
             feedBack.setOrder(iOrderRepository.findById(feedBackReqDto.getOrderId()).get());
+
             iFeedBackRepository.save(feedBack);
+
+            // sau khi save feedback thì tính rating cho cate và employee
+
+
             return true;
         } catch (Exception e) {
             return false;
@@ -63,7 +68,7 @@ public class FeedBackService implements IFeedBackService {
                 feedBack.setDescription(description);
             }
             if (percent != null) {
-                feedBack.setPercent(percent);
+                feedBack.setPercent(Float.valueOf(percent));
             }
             iFeedBackRepository.save(feedBack);
             return true;

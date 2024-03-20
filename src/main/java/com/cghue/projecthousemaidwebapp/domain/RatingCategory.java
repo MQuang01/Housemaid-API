@@ -1,23 +1,30 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.RatingCategoryResDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "rating_orders")
+import java.util.Objects;
+
+@Entity(name = "rating_categories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class RatingOrder {
+public class RatingCategory {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     private Category category;
 
     private Float percent;
+
+    public RatingCategoryResDto toResDto() {
+        return new RatingCategoryResDto(id, category.getName(), percent);
+    }
 }
