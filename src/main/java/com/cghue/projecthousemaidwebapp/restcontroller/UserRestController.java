@@ -3,6 +3,7 @@ package com.cghue.projecthousemaidwebapp.restcontroller;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserReqDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import com.cghue.projecthousemaidwebapp.service.IUserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,13 +34,15 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Boolean> registerUser(@RequestBody UserReqDto userNew) {
-        return ResponseEntity.ok(userService.registerUser(userNew));
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserReqDto userNew) {
+        userService.registerUser(userNew);
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean> updateUser(@PathVariable Long id,
-                                              @RequestBody UserReqDto userEdit) {
-        return ResponseEntity.ok(userService.updateUser(id, userEdit));
+    public ResponseEntity<?> updateUser(@PathVariable Long id,
+                                              @Valid @RequestBody UserReqDto userEdit) {
+        userService.updateUser(id, userEdit);
+        return ResponseEntity.ok("User update successfully!");
     }
 }

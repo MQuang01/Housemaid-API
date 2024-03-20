@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Entity(name = "user_roles")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +24,10 @@ public class UserRole {
 
     @ManyToOne
     private Role role;
+
+    public UserRole(User user, Role role) {
+        this.user = user;
+        this.role = role;
+    }
+
 }

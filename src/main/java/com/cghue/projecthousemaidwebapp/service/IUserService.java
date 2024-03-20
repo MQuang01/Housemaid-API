@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
-    boolean registerUser(UserReqDto userNew);
-    boolean updateUser(Long id, UserReqDto userEdit);
+    void registerUser(UserReqDto userNew);
+    void updateUser(Long id, UserReqDto userEdit);
     UserDetailResDto getUserDetailBy(Long id);
     Page<ListCustomerResDto> getAllUserBy(Pageable pageable, String search, ETypeUser typeUser);
 
