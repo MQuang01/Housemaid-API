@@ -1,4 +1,4 @@
-package com.cghue.projecthousemaidwebapp.domain.dto.req;
+package com.cghue.projecthousemaidwebapp.domain.dto.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeedBackReqDto {
-
-    private Long userId;
-    private String description;
+public class RatingCategoryResDto {
+    private Long id;
+    private String name;
     private Float percent;
-    private Long orderId;
 }

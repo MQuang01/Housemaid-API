@@ -14,6 +14,6 @@ public class FeedBackResDto {
     private Long id;
     private UserResDto user;
     private String description;
-    private Integer percent;
+    private Float percent;
     private OrderResDto order;
 }

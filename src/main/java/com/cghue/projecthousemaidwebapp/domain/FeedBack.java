@@ -23,7 +23,7 @@ public class FeedBack {
 
     private String description;
 
-    private Integer percent;
+    private Float percent;
 
     @ManyToOne
     private Order order;
