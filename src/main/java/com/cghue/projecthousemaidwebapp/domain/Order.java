@@ -45,6 +45,6 @@ public class Order {
     private Time timeStart;
 
     public OrderResDto toResDto() {
-        return new OrderResDto(id, user.toResDto(), category.getName(), statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
+        return new OrderResDto(id, user.toUserResDto(), category.getName(), statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
     }
 }
