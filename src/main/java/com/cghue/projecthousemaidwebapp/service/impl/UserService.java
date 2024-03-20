@@ -3,9 +3,11 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.Role;
 import com.cghue.projecthousemaidwebapp.domain.User;
 import com.cghue.projecthousemaidwebapp.domain.UserRole;
+import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserLoginReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserLoginResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
@@ -32,7 +34,7 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public void registerUser(UserReqDto user) {
+    public void register(UserReqDto user) {
         if(userRepository.existsUsersByEmailIgnoreCaseOrPhoneOrUsernameIgnoreCase(user.email(), user.phone(), user.username())) {
             throw new IllegalArgumentException("Email, phone, or username already exists");
         }
@@ -71,7 +73,7 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public void updateUser(Long id, UserReqDto userEdit) {
+    public void update(Long id, UserReqDto userEdit) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cannot find the user you are looking for"));
 
         if(!userEdit.email().equals(existingUser.getEmail())) {
@@ -114,5 +116,16 @@ public class UserService implements IUserService {
     @Override
     public Page<ListCustomerResDto> getAllUserBy(Pageable pageable, String search, ETypeUser typeUser) {
         return userRepository.findAllUserWithSearch(pageable, search, typeUser).map(User::toListCustomerResDto);
+    }
+
+    @Override
+    public UserLoginResDto login(UserLoginReqDto user) {
+        User userLogin = userRepository.loginUser(user.username(), user.password());
+        if(userLogin == null) throw new IllegalArgumentException("Tên tài khoản hoặc mật khẩu bị sai");
+        return new UserLoginResDto(userLogin.getId(),
+                userLogin.getUsername(),
+                userLogin.getFullName(),
+                userLogin.getUrlImage(),
+                userRoleRepository.findAllByUserId(userLogin.getId()));
     }
 }
