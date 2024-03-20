@@ -29,10 +29,12 @@ public class User {
 
     private String urlImage;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String address;
 
+    @Column(unique = true, nullable = false)
     private String phone;
 
     private LocalDate dob;
@@ -45,8 +47,10 @@ public class User {
 
     private Boolean isActive;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
