@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity(name = "order_details")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,7 +27,7 @@ public class OrderDetail {
 
     private Integer quantity;
 
-    private Integer houseSize;
+    private Double houseSize;
 
     public OrderDetailResDto toResDto() {
         return new OrderDetailResDto(id, job.toResDto(), price, quantity, houseSize);
