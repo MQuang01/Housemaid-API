@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IUserRepository extends JpaRepository<User, Long> {
 
+// <<<<<<< quang/crud-order
     @Query( value =
             "Select u.* from users u where u.id not in (" +
                     "SELECT oe.employee_id FROM users u " +
@@ -18,4 +19,10 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     )
     List<User> findAllEmployeeFreeTime(int limit);
 
+// =======
+//     @Query("SELECT u FROM users u WHERE u.typeUser = :type AND u.fullName LIKE %:name%")
+//     Page<User> findAllUserWithSearch(Pageable pageable, @Param("name") String name, @Param("type") ETypeUser type);
+
+//     boolean existsUsersByEmailIgnoreCaseOrPhoneOrUsernameIgnoreCase(String email, String phone, String username);
+// >>>>>>> master
 }
