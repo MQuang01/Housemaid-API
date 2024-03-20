@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.restcontroller;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserLoginReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserReqDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import com.cghue.projecthousemaidwebapp.service.IUserService;
@@ -35,14 +36,19 @@ public class UserRestController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserReqDto userNew) {
-        userService.registerUser(userNew);
+        userService.register(userNew);
         return ResponseEntity.ok("User registered successfully!");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id,
                                               @Valid @RequestBody UserReqDto userEdit) {
-        userService.updateUser(id, userEdit);
+        userService.update(id, userEdit);
         return ResponseEntity.ok("User update successfully!");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody UserLoginReqDto userLogin) {
+        return ResponseEntity.ok(userService.login(userLogin));
     }
 }

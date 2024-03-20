@@ -22,7 +22,7 @@ public record UserReqDto(
         @Pattern(regexp = "^(MALE|FEMALE|OTHER)$", message = "Gender is incorrect")
         String gender,
         @NotBlank(message = "Username must not be blank")
-        @Pattern(regexp = "^[A-Za-z0-9_]{6,20}$", message = "Username must be between 6 and 20 characters long and contain only alphanumeric characters, numbers, or underscores.")
+        @Pattern(regexp = "^[a-z0-9]{6,20}$", message = "Username must be between 6 and 20 characters long and contain only alphanumeric characters, or numbers.")
         String username,
         @NotBlank(message = "Password must not be blank")
 //        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$", message = "Password must contain at least one uppercase letter, one lowercase letter, one number and at least 6 characters.")
