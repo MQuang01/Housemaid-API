@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderDetailResDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,10 +25,11 @@ public class OrderDetail {
 
     private Double price;
 
-    private Float timeApprox;
-
     private Integer quantity;
 
     private Double houseSize;
 
+    public OrderDetailResDto toResDto() {
+        return new OrderDetailResDto(id, job.toResDto(), price, quantity, houseSize);
+    }
 }

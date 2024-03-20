@@ -14,5 +14,6 @@ public class JobReqDto {
     private String name;
     private String urlImage;
     private Double price;
+    private Float timeApprox;
     private Long categoryId;
 }
