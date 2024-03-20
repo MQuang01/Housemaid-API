@@ -1,6 +1,5 @@
 package com.cghue.projecthousemaidwebapp.domain.dto.res;
 
-import com.cghue.projecthousemaidwebapp.domain.Job;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,12 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobResDto {
+public class OrderEmployeeResDto {
     private Long id;
-    private String name;
-    private String urlImage;
-    private Double price;
-    private Float timeApprox;
-    private CategoryResDto category;
-
+    private OrderResDto order;
+    private UserResDto user;
 }
