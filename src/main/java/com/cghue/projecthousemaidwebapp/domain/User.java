@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
@@ -86,6 +87,24 @@ public class User {
         return new ListCustomerResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
                 this.gender.name(), this.username, this.urlImage
+        );
+    }
+
+    public UserResDto toUserResDto() {
+        return new UserResDto(
+                id,
+                fullName,
+                email,
+                phone,
+                address,
+                dob,
+                typeUser,
+                gender,
+                isActive,
+                username,
+                password,
+                shift != null ? shift: null,
+                createdAt
         );
     }
 }
