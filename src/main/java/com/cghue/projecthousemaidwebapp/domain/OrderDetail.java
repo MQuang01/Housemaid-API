@@ -27,7 +27,7 @@ public class OrderDetail {
 
     private Integer quantity;
 
-    private Double houseSize;
+    private Integer houseSize;
 
     public OrderDetailResDto toResDto() {
         return new OrderDetailResDto(id, job.toResDto(), price, quantity, houseSize);
