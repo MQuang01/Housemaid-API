@@ -1,5 +1,5 @@
 package com.cghue.projecthousemaidwebapp.domain.enumeration;
 
 public enum EStatusOrder {
-    WAITING, COMPLETE, CANCEL
+    WAITING, PROCESS, COMPLETE, CANCEL
 }

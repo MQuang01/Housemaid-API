@@ -1,6 +1,7 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.res.JobResDto;
+import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeJob;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,10 +24,15 @@ public class Job {
 
     private Double price;
 
+    private Float timeApprox;
+
+    @Enumerated(EnumType.STRING)
+    private ETypeJob typeJob;
+
     @ManyToOne
     private Category category;
 
     public JobResDto toResDto(){
-        return new JobResDto(id, name, urlImage, price, category.toResDto());
+        return new JobResDto(id, name, urlImage, price, timeApprox, category.toResDto());
     }
 }

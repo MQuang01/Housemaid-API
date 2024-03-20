@@ -6,16 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobResDto {
+public class OrderDetailResDto {
     private Long id;
-    private String name;
-    private String urlImage;
+    private JobResDto job;
     private Double price;
-    private Float timeApprox;
-    private CategoryResDto category;
-
+    private Integer quantity;
+    private Integer house_size;
 }

@@ -33,6 +33,7 @@ public class JobService implements IJobService {
         newJob.setName(job.getName());
         newJob.setUrlImage(job.getUrlImage());
         newJob.setPrice(job.getPrice());
+        newJob.setTimeApprox(job.getTimeApprox());
         newJob.setCategory(iCategoryRepository.findById(job.getCategoryId()).orElse(null));
         iJobRepository.save(newJob);
         return newJob.toResDto();

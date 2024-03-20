@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,13 +38,13 @@ public class Order {
     @Column(unique = true)
     private String currentlyCode;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderEmployee> listEmployee;
-
     private LocalDate createdAt;
 
     private LocalDate workDay;
 
     private Time timeStart;
 
+    public OrderResDto toResDto() {
+        return new OrderResDto(id, user.toResDto(), category.getName(), statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
+    }
 }
