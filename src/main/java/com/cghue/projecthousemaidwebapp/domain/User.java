@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
@@ -49,4 +50,22 @@ public class User {
     private EShift shift;
 
     private LocalDate createdAt;
+
+    public UserResDto toResDto() {
+        return new UserResDto(
+                id,
+                fullName,
+                email,
+                phone,
+                address,
+                dob,
+                typeUser,
+                gender,
+                isActive,
+                username,
+                password,
+                shift,
+                createdAt
+        );
+    }
 }
