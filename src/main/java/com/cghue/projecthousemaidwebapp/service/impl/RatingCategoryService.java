@@ -28,11 +28,10 @@ public class RatingCategoryService implements IRatingCategoryService {
     }
 
     @Override
-    public void calculateRatingOrder(Long feedBackId) {
-        RatingCategory ratingCategory = iRatingCategoryRepository.findRatingCategoryAndCategoryWithFeedBack(feedBackId);
-        FeedBack feedBack = iFeedBackRepository.findById(feedBackId).get();
-        ratingCategory.setPercent(
-                feedBack.getPercent() + ratingCategory.getPercent() /
-                        iRatingCategoryRepository.countFeedBackOfCategoryByOrderId(feedBack.getOrder().getId()));
+    public void calculateRatingOrder(Long categoryId) {
+        RatingCategory ratingCategory = iRatingCategoryRepository.findRatingCategoryByCategory_Id(categoryId);
+        ratingCategory.setPercent(iRatingCategoryRepository.sumRatingFeedBackWithCategoryID(categoryId)
+                / iRatingCategoryRepository.countFeedBackOfCategoryByCategoryId(categoryId));
+        iRatingCategoryRepository.save(ratingCategory);
     }
 }
