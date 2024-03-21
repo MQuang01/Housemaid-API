@@ -3,16 +3,19 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.FeedBack;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.FeedBackReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.FeedBackResDto;
+import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import com.cghue.projecthousemaidwebapp.repository.IFeedBackRepository;
 import com.cghue.projecthousemaidwebapp.repository.IOrderRepository;
+import com.cghue.projecthousemaidwebapp.repository.IRatingCategoryRepository;
 import com.cghue.projecthousemaidwebapp.repository.IUserRepository;
 import com.cghue.projecthousemaidwebapp.service.IFeedBackService;
+import com.cghue.projecthousemaidwebapp.service.IRatingCategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +23,9 @@ public class FeedBackService implements IFeedBackService {
     private final IFeedBackRepository iFeedBackRepository;
     private final IUserRepository iUserRepository;
     private final IOrderRepository iOrderRepository;
+    private final IRatingCategoryService ratingCategoryService;
+    private final IRatingCategoryRepository iRatingCategoryRepository;
+
 
     @Override
     public List<FeedBackResDto> getAllFeedBacks() {
@@ -31,22 +37,23 @@ public class FeedBackService implements IFeedBackService {
     }
 
     @Override
-    public boolean saveFeedBack(FeedBackReqDto feedBackReqDto) {
+    @Transactional
+    public FeedBackResDto saveFeedBack(FeedBackReqDto feedBackReqDto) {
         FeedBack feedBack = new FeedBack();
         try {
             feedBack.setUser(iUserRepository.findById(feedBackReqDto.getUserId()).get());
             feedBack.setDescription(feedBackReqDto.getDescription());
             feedBack.setPercent(feedBackReqDto.getPercent());
             feedBack.setOrder(iOrderRepository.findById(feedBackReqDto.getOrderId()).get());
-
-            iFeedBackRepository.save(feedBack);
-
             // sau khi save feedback thì tính rating cho cate và employee
-
-
-            return true;
+            if(feedBack.getOrder().getStatusOrder().equals(EStatusOrder.COMPLETE)) {
+                feedBack = iFeedBackRepository.save(feedBack);
+                ratingCategoryService.calculateRatingOrder(feedBack.getOrder().getCategory().getId());
+            }
+            return feedBack.toResDto();
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
+            return null;
         }
     }
 

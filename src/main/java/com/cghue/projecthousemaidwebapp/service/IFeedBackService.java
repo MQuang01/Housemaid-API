@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface IFeedBackService {
     List<FeedBackResDto> getAllFeedBacks();
-
-    boolean saveFeedBack(FeedBackReqDto feedBackReqDto);
+    FeedBackResDto saveFeedBack(FeedBackReqDto feedBackReqDto);
     boolean updateFeedBack(Long idFeedback, Long userId, String description, Integer percent);
     boolean deleteFeedBack(Long id, Long userId);
 }
