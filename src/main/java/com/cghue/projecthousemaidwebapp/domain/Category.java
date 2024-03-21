@@ -1,10 +1,8 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.FileInfoResDto;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +20,10 @@ public class Category {
 
     private String name;
 
-    private String urlImage;
+    @OneToOne
+    private FileInfo fileInfo;
 
     public CategoryResDto toResDto() {
-        return new CategoryResDto(id, name, urlImage);
+        return new CategoryResDto(id, name, fileInfo.toResDto());
     }
 }

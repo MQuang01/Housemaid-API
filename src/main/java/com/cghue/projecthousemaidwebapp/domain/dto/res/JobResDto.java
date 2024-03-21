@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain.dto.res;
 
+import com.cghue.projecthousemaidwebapp.domain.FileInfo;
 import com.cghue.projecthousemaidwebapp.domain.Job;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import lombok.Setter;
 public class JobResDto {
     private Long id;
     private String name;
-    private String urlImage;
+    private FileInfoResDto fileInfo;
     private Double price;
     private Float timeApprox;
     private CategoryResDto category;

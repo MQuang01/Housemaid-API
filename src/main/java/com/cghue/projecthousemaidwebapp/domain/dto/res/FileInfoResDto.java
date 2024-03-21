@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResDto {
-
-    private Long id;
-    private String name;
-    private FileInfoResDto fileInfo;
+public class FileInfoResDto {
+    private String publicId;
+    private String url;
 }
