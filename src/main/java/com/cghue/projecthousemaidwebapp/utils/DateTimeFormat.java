@@ -1,4 +1,4 @@
-package com.cghue.projecthousemaidwebapp.utils.format;
+package com.cghue.projecthousemaidwebapp.utils;
 
 import java.time.format.DateTimeFormatter;
 

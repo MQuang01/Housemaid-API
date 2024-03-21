@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -11,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CategoryReqDto {
     private String name;
-    private String urlImage;
+    private MultipartFile avatar;
 }

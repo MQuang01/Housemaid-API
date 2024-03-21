@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FeedBackResDto {
-
     private Long id;
     private UserResDto user;
     private String description;

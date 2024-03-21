@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.service.impl;
 
+import com.cghue.projecthousemaidwebapp.domain.FileInfo;
 import com.cghue.projecthousemaidwebapp.domain.Job;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.JobReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.JobResDto;
@@ -31,7 +32,7 @@ public class JobService implements IJobService {
     public JobResDto addJob(JobReqDto job) {
         Job newJob = new Job();
         newJob.setName(job.getName());
-        newJob.setUrlImage(job.getUrlImage());
+        newJob.setFileInfo(null);
         newJob.setPrice(job.getPrice());
         newJob.setTimeApprox(job.getTimeApprox());
         newJob.setCategory(iCategoryRepository.findById(job.getCategoryId()).orElse(null));
@@ -43,28 +44,31 @@ public class JobService implements IJobService {
     public boolean updateJob(Long id, JobReqDto newJob) {
         Job job = iJobRepository.findById(id).orElse(null);
         if (job != null) {
-            if(!job.getName().equals(newJob.getName())) {
+            if (!job.getName().equals(newJob.getName())) {
                 job.setName(newJob.getName());
             }
-            if (!job.getUrlImage().equals(newJob.getUrlImage())) {
-                job.setUrlImage(newJob.getUrlImage());
+            if (newJob.getAvatar() != null) {
+                {
+                    job.setFileInfo((FileInfo) newJob.getAvatar());
+                }
+                if (!job.getPrice().equals(newJob.getPrice())) {
+                    job.setPrice(newJob.getPrice());
+                }
+                if (!job.getCategory().getId().equals(newJob.getCategoryId())) {
+                    job.setCategory(iCategoryRepository.findById(newJob.getCategoryId()).orElse(null));
+                }
+                iJobRepository.save(job);
+                return true;
             }
-            if (!job.getPrice().equals(newJob.getPrice())) {
-                job.setPrice(newJob.getPrice());
-            }
-            if (!job.getCategory().getId().equals(newJob.getCategoryId())) {
-                job.setCategory(iCategoryRepository.findById(newJob.getCategoryId()).orElse(null));
-            }
-            iJobRepository.save(job);
-            return true;
         }
         return false;
     }
 
     @Override
     public boolean deleteJob(Long id) {
-        if (iJobRepository.findById(id).isPresent()) {
-            iJobRepository.deleteById(id);
+        Job job = iJobRepository.findById(id).orElse(null);
+        if (job != null) {
+            iJobRepository.delete(job);
             return true;
         }
         return false;

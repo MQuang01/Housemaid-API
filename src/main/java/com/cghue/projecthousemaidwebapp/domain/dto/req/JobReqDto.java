@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class JobReqDto {
     private String name;
-    private String urlImage;
+    private MultipartFile avatar;
     private Double price;
     private Float timeApprox;
     private Long categoryId;

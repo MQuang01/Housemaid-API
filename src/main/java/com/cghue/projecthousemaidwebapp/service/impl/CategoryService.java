@@ -1,6 +1,7 @@
 package com.cghue.projecthousemaidwebapp.service.impl;
 
 import com.cghue.projecthousemaidwebapp.domain.Category;
+import com.cghue.projecthousemaidwebapp.domain.FileInfo;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
@@ -24,7 +25,7 @@ public class CategoryService implements ICategoryService {
     public CategoryResDto addCategory(CategoryReqDto categoryReqDto) {
         Category category = new Category();
         category.setName(categoryReqDto.getName());
-        category.setUrlImage(categoryReqDto.getUrlImage());
+        category.setFileInfo((FileInfo) categoryReqDto.getAvatar());
         categoryRepository.save(category);
         return category.toResDto();
     }
@@ -36,12 +37,12 @@ public class CategoryService implements ICategoryService {
             if(!category.getName().equals(categoryReqDto.getName())){
                 category.setName(categoryReqDto.getName());
             }
-            if(category.getUrlImage() != null){
-                if(!category.getUrlImage().equals(categoryReqDto.getUrlImage())){
-                    category.setUrlImage(categoryReqDto.getUrlImage());
+            if(category.getFileInfo() != null){
+                if(!category.getFileInfo().equals(categoryReqDto.getAvatar())){
+                    category.setFileInfo((FileInfo) categoryReqDto.getAvatar());
                 }
             }else {
-                category.setUrlImage(categoryReqDto.getUrlImage());
+                category.setFileInfo((FileInfo) categoryReqDto.getAvatar());
             }
             categoryRepository.save(category);
             return true;

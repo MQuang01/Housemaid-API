@@ -20,7 +20,8 @@ public class Job {
 
     private String name;
 
-    private String urlImage;
+    @OneToOne
+    private FileInfo fileInfo;
 
     private Double price;
 
@@ -32,7 +33,8 @@ public class Job {
     @ManyToOne
     private Category category;
 
+
     public JobResDto toResDto(){
-        return new JobResDto(id, name, urlImage, price, timeApprox, category.toResDto());
+        return new JobResDto(id, name, fileInfo.toResDto(), price, timeApprox, category.toResDto());
     }
 }
