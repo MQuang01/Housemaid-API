@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class JobReqDto {
     private String name;
-    private MultipartFile avatar;
     private Double price;
     private Float timeApprox;
     private Long categoryId;

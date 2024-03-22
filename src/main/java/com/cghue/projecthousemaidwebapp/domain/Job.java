@@ -35,6 +35,9 @@ public class Job {
 
 
     public JobResDto toResDto(){
+        if (fileInfo == null) {
+            return new JobResDto(id, name, null, price, timeApprox, category.toResDto());
+        }
         return new JobResDto(id, name, fileInfo.toResDto(), price, timeApprox, category.toResDto());
     }
 }

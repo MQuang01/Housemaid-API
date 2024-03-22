@@ -5,6 +5,7 @@ import com.cghue.projecthousemaidwebapp.service.ICategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -18,7 +19,7 @@ public class CategoryRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addCategory(@RequestBody CategoryReqDto categoryReqDto) {
+    public ResponseEntity<?> addCategory(@RequestParam("avatar") MultipartFile avatar , @RequestBody CategoryReqDto categoryReqDto) {
         return ResponseEntity.ok(iCategoryService.addCategory(categoryReqDto));
     }
 
