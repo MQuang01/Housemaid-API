@@ -25,7 +25,6 @@ public class CategoryService implements ICategoryService {
     public CategoryResDto addCategory(CategoryReqDto categoryReqDto) {
         Category category = new Category();
         category.setName(categoryReqDto.getName());
-        category.setFileInfo((FileInfo) categoryReqDto.getAvatar());
         categoryRepository.save(category);
         return category.toResDto();
     }
@@ -36,13 +35,6 @@ public class CategoryService implements ICategoryService {
         if (category != null) {
             if(!category.getName().equals(categoryReqDto.getName())){
                 category.setName(categoryReqDto.getName());
-            }
-            if(category.getFileInfo() != null){
-                if(!category.getFileInfo().equals(categoryReqDto.getAvatar())){
-                    category.setFileInfo((FileInfo) categoryReqDto.getAvatar());
-                }
-            }else {
-                category.setFileInfo((FileInfo) categoryReqDto.getAvatar());
             }
             categoryRepository.save(category);
             return true;

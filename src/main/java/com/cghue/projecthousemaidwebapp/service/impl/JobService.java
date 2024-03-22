@@ -47,19 +47,17 @@ public class JobService implements IJobService {
             if (!job.getName().equals(newJob.getName())) {
                 job.setName(newJob.getName());
             }
-            if (newJob.getAvatar() != null) {
-                {
-                    job.setFileInfo((FileInfo) newJob.getAvatar());
-                }
-                if (!job.getPrice().equals(newJob.getPrice())) {
-                    job.setPrice(newJob.getPrice());
-                }
-                if (!job.getCategory().getId().equals(newJob.getCategoryId())) {
-                    job.setCategory(iCategoryRepository.findById(newJob.getCategoryId()).orElse(null));
-                }
-                iJobRepository.save(job);
-                return true;
+            if (!job.getTimeApprox().equals(newJob.getTimeApprox())) {
+                job.setTimeApprox(newJob.getTimeApprox());
             }
+            if (!job.getPrice().equals(newJob.getPrice())) {
+                job.setPrice(newJob.getPrice());
+            }
+            if (!job.getCategory().getId().equals(newJob.getCategoryId())) {
+                job.setCategory(iCategoryRepository.findById(newJob.getCategoryId()).orElse(null));
+            }
+            iJobRepository.save(job);
+            return true;
         }
         return false;
     }

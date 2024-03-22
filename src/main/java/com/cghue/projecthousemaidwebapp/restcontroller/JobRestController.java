@@ -5,6 +5,7 @@ import com.cghue.projecthousemaidwebapp.service.IJobService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -24,7 +25,7 @@ public class JobRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addJob(@RequestBody JobReqDto jobReqDto){
+    public ResponseEntity<?> addJob(@RequestParam("avatar") MultipartFile avatar, @RequestBody JobReqDto jobReqDto){
         return ResponseEntity.ok(iJobService.addJob(jobReqDto));
     }
 

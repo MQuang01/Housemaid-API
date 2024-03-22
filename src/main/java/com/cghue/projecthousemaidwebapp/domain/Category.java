@@ -24,6 +24,9 @@ public class Category {
     private FileInfo fileInfo;
 
     public CategoryResDto toResDto() {
+        if (fileInfo == null) {
+            return new CategoryResDto(id, name, null);
+        }
         return new CategoryResDto(id, name, fileInfo.toResDto());
     }
 }
