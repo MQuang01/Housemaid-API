@@ -24,6 +24,7 @@ public class Order {
 
     @ManyToOne
     private User user;
+    private String address;
 
     @ManyToOne
     private Category category;
@@ -45,6 +46,6 @@ public class Order {
     private Time timeStart;
 
     public OrderResDto toResDto() {
-        return new OrderResDto(id, user.toUserResDto(), category.getName(), statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
+        return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
     }
 }

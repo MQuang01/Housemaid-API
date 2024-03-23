@@ -17,7 +17,8 @@ import java.util.List;
 public class OrderReqDto {
     private Long userId;
     private Long categoryId;
-    private Float totalTimeApprox; // chùi nhà, lau tường ~15p
+    private String address;
+    private Float totalTimeApprox;
     private Double totalPrice;
     private Integer quantityEmployee;
     private String workDay;

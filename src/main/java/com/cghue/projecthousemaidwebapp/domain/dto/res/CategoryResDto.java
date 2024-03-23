@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryResDto {
-
     private Long id;
     private String name;
     private FileInfoResDto fileInfo;

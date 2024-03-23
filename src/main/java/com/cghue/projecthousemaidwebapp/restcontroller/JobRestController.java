@@ -2,10 +2,13 @@ package com.cghue.projecthousemaidwebapp.restcontroller;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.JobReqDto;
 import com.cghue.projecthousemaidwebapp.service.IJobService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -25,8 +28,9 @@ public class JobRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addJob(@RequestParam("avatar") MultipartFile avatar, @RequestBody JobReqDto jobReqDto){
-        return ResponseEntity.ok(iJobService.addJob(jobReqDto));
+    public ResponseEntity<?> addJob(@RequestParam("avatar") MultipartFile avatar,
+                                    @Valid JobReqDto jobReqDto) throws IOException {
+        return ResponseEntity.ok(iJobService.addJob(jobReqDto, avatar));
     }
 
     @PutMapping("/{id}")

@@ -2,10 +2,13 @@ package com.cghue.projecthousemaidwebapp.restcontroller;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
 import com.cghue.projecthousemaidwebapp.service.ICategoryService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -19,8 +22,9 @@ public class CategoryRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addCategory(@RequestParam("avatar") MultipartFile avatar , @RequestBody CategoryReqDto categoryReqDto) {
-        return ResponseEntity.ok(iCategoryService.addCategory(categoryReqDto));
+    public ResponseEntity<?> addCategory(@RequestParam("avatar") MultipartFile avatar ,
+                                         @Valid CategoryReqDto categoryReqDto) throws IOException {
+        return ResponseEntity.ok(iCategoryService.addCategory(categoryReqDto, avatar));
     }
 
     @PutMapping("/{id}")

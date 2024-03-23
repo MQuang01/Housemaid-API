@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "users")
 @AllArgsConstructor
@@ -27,7 +28,8 @@ public class User {
 
     private String fullName;
 
-    private String urlImage;
+    @OneToOne
+    private FileInfo fileInfo;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -57,19 +59,24 @@ public class User {
     private EShift shift;
 
     private LocalDate createdAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserRole> userRoles;
+
     //Register Customer
-    public User(String fullName, String urlImage, String email,
+    public User(String fullName, String email,
                 String address, String phone, LocalDate dob,
                 EGender gender, Boolean isActive,
+                ETypeUser typeUser,
                 String username, String password) {
         this.fullName = fullName;
-        this.urlImage = urlImage;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.dob = dob;
         this.gender = gender;
         this.isActive = isActive;
+        this.typeUser = typeUser;
         this.username = username;
         this.password = password;
     }
@@ -77,7 +84,7 @@ public class User {
     public UserDetailResDto toUserDetailResDto() {
         return new UserDetailResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
-                this.gender.name(), this.username, this.password, this.urlImage,
+                this.gender.name(), this.username, this.password, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null,
                 this.shift != null ? this.shift.name() : ""
         );
     }
@@ -85,7 +92,7 @@ public class User {
     public ListCustomerResDto toListCustomerResDto() {
         return new ListCustomerResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
-                this.gender.name(), this.username, this.urlImage
+                this.gender.name(), this.username, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null
         );
     }
 
@@ -103,7 +110,8 @@ public class User {
                 username,
                 password,
                 shift != null ? shift: null,
-                createdAt
+                createdAt,
+                fileInfo != null ? fileInfo.toResDto() : null
         );
     }
 }
