@@ -1,10 +1,10 @@
 package com.cghue.projecthousemaidwebapp.domain.dto.req.user;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.web.multipart.MultipartFile;
 
-public record UserReqDto(
+public record RegisterReqDto(
         @NotBlank(message = "Name must not be blank")
         @Pattern(regexp = "^[\\p{L}\\s]{1,}[\\.]{0,1}[\\p{L}\\s]{0,}$", message = "Invalid name")
         String fullName,
@@ -21,13 +21,16 @@ public record UserReqDto(
         @NotBlank(message = "Gender must not be blank")
         @Pattern(regexp = "^(MALE|FEMALE|OTHER)$", message = "Gender is incorrect")
         String gender,
+        @NotBlank(message = "Type user must not be blank")
+        @Pattern(regexp = "^(CUSTOMER|EMPLOYEE)$", message = "Type user is incorrect")
+        String typeUser,
+
         @NotBlank(message = "Username must not be blank")
         @Pattern(regexp = "^[a-z0-9]{6,20}$", message = "Username must be between 6 and 20 characters long and contain only alphanumeric characters, or numbers.")
         String username,
         @NotBlank(message = "Password must not be blank")
 //        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$", message = "Password must contain at least one uppercase letter, one lowercase letter, one number and at least 6 characters.")
         String password,
-        String urlImage,
         @Pattern(regexp = "^(SHIFT_1|SHIFT_2|SHIFT_3|SHIFT_4|SHIFT_5)$", message = "Shift is incorrect")
         String shift
 )

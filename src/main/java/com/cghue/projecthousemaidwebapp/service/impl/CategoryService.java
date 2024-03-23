@@ -8,13 +8,16 @@ import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
 import com.cghue.projecthousemaidwebapp.service.ICategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class CategoryService implements ICategoryService {
     private final ICategoryRepository categoryRepository;
+    private final UploadService uploadService;
 
     @Override
     public List<CategoryResDto> getAllCategories() {
@@ -22,9 +25,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryResDto addCategory(CategoryReqDto categoryReqDto) {
+    public CategoryResDto addCategory(CategoryReqDto categoryReqDto, MultipartFile avatar) throws IOException {
+        FileInfo fileInfo = uploadService.saveAvatar(avatar);
         Category category = new Category();
         category.setName(categoryReqDto.getName());
+        category.setFileInfo(fileInfo);
         categoryRepository.save(category);
         return category.toResDto();
     }

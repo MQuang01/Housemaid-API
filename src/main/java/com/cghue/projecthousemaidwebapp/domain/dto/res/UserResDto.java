@@ -29,4 +29,5 @@ public class UserResDto {
     private String password;
     private EShift shift;
     private LocalDate createdAt;
+    private FileInfoResDto fileInfoResDto;
 }
