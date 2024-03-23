@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record RegisterReqDto(
         @NotBlank(message = "Name must not be blank")
-        @Pattern(regexp = "^[\\p{L}\\s]{1,}[\\.]{0,1}[\\p{L}\\s]{0,}$", message = "Invalid name")
+//        @Pattern(regexp = "^[\\p{L}\\s]{1,}[\\.]{0,1}[\\p{L}\\s]{0,}$", message = "Invalid name")
         String fullName,
         @NotBlank(message = "Email must not be blank")
         @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Invalid email")
@@ -31,7 +31,7 @@ public record RegisterReqDto(
         @NotBlank(message = "Password must not be blank")
 //        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}$", message = "Password must contain at least one uppercase letter, one lowercase letter, one number and at least 6 characters.")
         String password,
-        @Pattern(regexp = "^(SHIFT_1|SHIFT_2|SHIFT_3|SHIFT_4|SHIFT_5)$", message = "Shift is incorrect")
+        @Pattern(regexp = "^(SHIFT_1|SHIFT_2|SHIFT_3|SHIFT_4)$", message = "Shift is incorrect")
         String shift
 )
 { }
