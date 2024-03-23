@@ -9,7 +9,9 @@ import com.cghue.projecthousemaidwebapp.repository.IJobRepository;
 import com.cghue.projecthousemaidwebapp.service.IJobService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -17,6 +19,7 @@ import java.util.List;
 public class JobService implements IJobService {
     private final IJobRepository iJobRepository;
     private final ICategoryRepository iCategoryRepository;
+    private final UploadService uploadService;
 
     @Override
     public List<JobResDto> getAllJobs() {
@@ -29,13 +32,14 @@ public class JobService implements IJobService {
     }
 
     @Override
-    public JobResDto addJob(JobReqDto job) {
+    public JobResDto addJob(JobReqDto job, MultipartFile avatar) throws IOException {
+        FileInfo fileInfo = uploadService.saveAvatar(avatar);
         Job newJob = new Job();
         newJob.setName(job.getName());
-        newJob.setFileInfo(null);
         newJob.setPrice(job.getPrice());
         newJob.setTimeApprox(job.getTimeApprox());
         newJob.setCategory(iCategoryRepository.findById(job.getCategoryId()).orElse(null));
+        newJob.setFileInfo(fileInfo);
         iJobRepository.save(newJob);
         return newJob.toResDto();
     }

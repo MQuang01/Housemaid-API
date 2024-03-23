@@ -21,6 +21,9 @@ public class UploadService {
     private final UploadUtils uploadUtils;
 
     public FileInfo saveAvatar(MultipartFile avatar) throws IOException {
+        if (avatar == null) {
+            return null;
+        }
         var file = new FileInfo();
         fileRepository.save(file);
 

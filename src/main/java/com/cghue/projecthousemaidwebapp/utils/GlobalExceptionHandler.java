@@ -1,4 +1,4 @@
-package com.cghue.projecthousemaidwebapp.restcontroller;
+package com.cghue.projecthousemaidwebapp.utils;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
