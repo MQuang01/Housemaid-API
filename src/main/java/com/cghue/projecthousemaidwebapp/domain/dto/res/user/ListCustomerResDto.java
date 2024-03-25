@@ -1,5 +1,7 @@
 package com.cghue.projecthousemaidwebapp.domain.dto.res.user;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.FileInfoResDto;
+
 public record ListCustomerResDto(
         Long id,
         String fullName,
@@ -9,6 +11,6 @@ public record ListCustomerResDto(
         String dob,
         String gender,
         String username,
-        String urlImage
+        FileInfoResDto fileInfoResDto
 ) {
 }

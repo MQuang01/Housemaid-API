@@ -2,15 +2,14 @@ package com.cghue.projecthousemaidwebapp.domain.dto.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CategoryResDto {
+public class CategoryListResDto {
     private Long id;
     private String name;
-    private FileInfoResDto fileInfo;
+    private String url;
+    private Float averageRating;
 }

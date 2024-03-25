@@ -8,7 +8,8 @@ import lombok.Setter;
 
 import java.util.Optional;
 
-@Entity(name = "user_roles")
+@Entity
+@Table(name = "user_roles")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

@@ -3,28 +3,34 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.Category;
 import com.cghue.projecthousemaidwebapp.domain.FileInfo;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
 import com.cghue.projecthousemaidwebapp.service.ICategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class CategoryService implements ICategoryService {
     private final ICategoryRepository categoryRepository;
+    private final UploadService uploadService;
 
     @Override
-    public List<CategoryResDto> getAllCategories() {
-        return categoryRepository.findAll().stream().map(Category::toResDto).toList();
+    public List<CategoryListResDto> getAllCategories() {
+        return categoryRepository.findAllWithRating();
     }
 
     @Override
-    public CategoryResDto addCategory(CategoryReqDto categoryReqDto) {
+    public CategoryResDto addCategory(CategoryReqDto categoryReqDto, MultipartFile avatar) throws IOException {
+        FileInfo fileInfo = uploadService.saveAvatar(avatar);
         Category category = new Category();
         category.setName(categoryReqDto.getName());
+        category.setFileInfo(fileInfo);
         categoryRepository.save(category);
         return category.toResDto();
     }

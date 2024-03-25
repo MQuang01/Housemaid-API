@@ -1,4 +1,4 @@
-package com.cghue.projecthousemaidwebapp.restcontroller;
+package com.cghue.projecthousemaidwebapp.utils;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +22,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementExceptions(NoSuchElementException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleNoSuchElementExceptions(IllegalStateException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
