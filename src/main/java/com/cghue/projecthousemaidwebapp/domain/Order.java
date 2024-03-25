@@ -12,7 +12,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name = "orders")
+@Entity
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

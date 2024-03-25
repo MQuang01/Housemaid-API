@@ -3,6 +3,7 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.Category;
 import com.cghue.projecthousemaidwebapp.domain.FileInfo;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
 import com.cghue.projecthousemaidwebapp.service.ICategoryService;
@@ -20,8 +21,8 @@ public class CategoryService implements ICategoryService {
     private final UploadService uploadService;
 
     @Override
-    public List<CategoryResDto> getAllCategories() {
-        return categoryRepository.findAll().stream().map(Category::toResDto).toList();
+    public List<CategoryListResDto> getAllCategories() {
+        return categoryRepository.findAllWithRating();
     }
 
     @Override

@@ -1,9 +1,14 @@
 package com.cghue.projecthousemaidwebapp.restcontroller;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.JobReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto;
 import com.cghue.projecthousemaidwebapp.service.IJobService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +23,17 @@ public class JobRestController {
     private final IJobService iJobService;
 
     @GetMapping
-    public ResponseEntity<?> getAllJobs(){
-        return ResponseEntity.ok(iJobService.getAllJobs());
+    public ResponseEntity<Page<JobListResDto>> findAllWithSearch(@RequestParam(required = false, defaultValue = "") String search
+            , @RequestParam(required = false) Long categoryId
+            , @PageableDefault(sort = "id") Pageable pageable) {
+        return ResponseEntity.ok(iJobService.findAllWithSearch(search, categoryId, pageable));
     }
+
+//    @GetMapping
+//    public ResponseEntity<?> getAllJobs(){
+//        return ResponseEntity.ok(iJobService.getAllJobs());
+//    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getJobById(@PathVariable Long id){

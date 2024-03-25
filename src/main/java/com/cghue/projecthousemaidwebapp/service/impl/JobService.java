@@ -3,11 +3,14 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.FileInfo;
 import com.cghue.projecthousemaidwebapp.domain.Job;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.JobReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.JobResDto;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
 import com.cghue.projecthousemaidwebapp.repository.IJobRepository;
 import com.cghue.projecthousemaidwebapp.service.IJobService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,5 +77,11 @@ public class JobService implements IJobService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Page<JobListResDto> findAllWithSearch(String search, Long categoryId, Pageable pageable) {
+        search = "%" + search + "%";
+        return iJobRepository.findAllWithSearch(search, categoryId, pageable);
     }
 }

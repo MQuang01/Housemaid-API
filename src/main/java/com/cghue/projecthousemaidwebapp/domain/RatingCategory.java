@@ -9,7 +9,8 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-@Entity(name = "rating_categories")
+@Entity
+@Table(name = "rating_categories")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

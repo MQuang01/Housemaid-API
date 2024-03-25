@@ -49,15 +49,16 @@ public class SpringSecurity {
                                 .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers("/api/dash-boards").hasRole("ADMIN")
                                 .anyRequest().authenticated())
-                .formLogin(
-                        form -> form
-                                .defaultSuccessUrl("/")
-                                .permitAll()
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .formLogin(
+//                        form -> form
+//                                .defaultSuccessUrl("/")
+//                                .permitAll()
+//                ).logout(
+//                        logout -> logout
+//                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                                .permitAll()
+//                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -71,4 +72,5 @@ public class SpringSecurity {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+    
 }

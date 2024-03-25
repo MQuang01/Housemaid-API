@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "feed_backs")
+@Entity
+@Table(name = "feed_backs")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
