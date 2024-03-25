@@ -143,7 +143,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public String login(UserLoginReqDto request) {
+
         UserDetails userDetails = loadUserByUsername(request.username());
+
         if (!passwordEncoder.matches(request.password(), userDetails.getPassword())) {
             throw new IllegalStateException("Wrong password or username");
         }
