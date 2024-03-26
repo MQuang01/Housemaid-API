@@ -84,4 +84,9 @@ public class JobService implements IJobService {
         search = "%" + search + "%";
         return iJobRepository.findAllWithSearch(search, categoryId, pageable);
     }
+
+    @Override
+    public List<JobListResDto> getJobsByCategoryId(Long id) {
+        return iJobRepository.getJobsByCategoryId(id);
+    }
 }

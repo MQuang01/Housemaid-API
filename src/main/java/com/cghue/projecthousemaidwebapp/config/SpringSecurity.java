@@ -44,10 +44,11 @@ public class SpringSecurity {
                                 .requestMatchers("/api/ratings").permitAll()
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/jobs/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
-                                .requestMatchers("/api/dash-boards").hasRole("ADMIN")
+                                .requestMatchers("/api/dash-boards/**").permitAll()
                                 .anyRequest().authenticated())
 //                .formLogin(
 //                        form -> form
@@ -72,5 +73,5 @@ public class SpringSecurity {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-    
+
 }
