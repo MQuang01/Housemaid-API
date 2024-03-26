@@ -29,11 +29,10 @@ public class JobRestController {
         return ResponseEntity.ok(iJobService.findAllWithSearch(search, categoryId, pageable));
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getAllJobs(){
-//        return ResponseEntity.ok(iJobService.getAllJobs());
-//    }
-
+    @GetMapping("/category/{id}")
+    public ResponseEntity<?> getJobsByCategoryId(@PathVariable Long id){
+        return ResponseEntity.ok(iJobService.getJobsByCategoryId(id));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getJobById(@PathVariable Long id){

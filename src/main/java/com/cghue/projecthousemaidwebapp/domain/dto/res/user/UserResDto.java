@@ -1,5 +1,6 @@
-package com.cghue.projecthousemaidwebapp.domain.dto.res;
+package com.cghue.projecthousemaidwebapp.domain.dto.res.user;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.FileInfoResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;

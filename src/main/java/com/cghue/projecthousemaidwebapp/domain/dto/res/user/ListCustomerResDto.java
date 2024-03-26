@@ -11,6 +11,6 @@ public record ListCustomerResDto(
         String dob,
         String gender,
         String username,
-        FileInfoResDto fileInfoResDto
+        String fileUrl
 ) {
 }
