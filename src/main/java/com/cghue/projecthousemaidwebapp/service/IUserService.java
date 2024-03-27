@@ -2,6 +2,7 @@ package com.cghue.projecthousemaidwebapp.service;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserLoginReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.RegisterReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
@@ -18,6 +19,6 @@ public interface IUserService {
     UserDetailResDto getUserDetailBy(Long id);
     Page<ListCustomerResDto> getAllUserBy(Pageable pageable, String search, ETypeUser typeUser);
     String login(UserLoginReqDto userLogin);
-
+    UserDetailResDto getUserDetailBy(String username);
 
 }

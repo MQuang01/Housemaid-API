@@ -14,6 +14,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -86,7 +87,8 @@ public class User {
         return new UserDetailResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
                 this.gender.name(), this.username, this.password, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null,
-                this.shift != null ? this.shift.name() : ""
+                this.shift != null ? this.shift.name() : "",
+                this.userRoles.stream().map(UserRole::toUserRoleResDto).collect(Collectors.toList())
         );
     }
 

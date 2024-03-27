@@ -35,3 +35,14 @@ public record RegisterReqDto(
         String shift
 )
 { }
+//{
+//        "fullname": "Hiep Nguyen",
+//        "email": "hiep@gmail.com",
+//        "address": "TP Thua Thien Hue",
+//        "phone": "03555625012",
+//        "dob": "2000-01-13",
+//        "gender": "MALE",
+//        "typeUser": "CUSTOMER",
+//        "username": "hiep123",
+//        "password": "123123"
+//        }
