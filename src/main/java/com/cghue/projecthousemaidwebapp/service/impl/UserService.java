@@ -3,6 +3,7 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.*;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserLoginReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.RegisterReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
@@ -149,6 +150,17 @@ public class UserService implements IUserService, UserDetailsService {
         if (!passwordEncoder.matches(request.password(), userDetails.getPassword())) {
             throw new IllegalStateException("Wrong password or username");
         }
-        return jwtTokenProvider.generateToken(request.username());
+        UserDetailResDto userDetailResDto = getUserDetailBy(request.username());
+        return jwtTokenProvider.generateToken(userDetailResDto.fileInfoResDto().getUrl() ,
+                userDetailResDto.fullName(),
+                userDetailResDto.email(),
+                userDetailResDto.username(),
+                userDetailResDto.roles());
+    }
+
+    @Override
+    public UserDetailResDto getUserDetailBy(String username) {
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username)).toUserDetailResDto();
     }
 }

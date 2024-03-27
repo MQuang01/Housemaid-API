@@ -2,6 +2,8 @@ package com.cghue.projecthousemaidwebapp.domain.dto.res.user;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.res.FileInfoResDto;
 
+import java.util.List;
+
 public record UserDetailResDto(
         Long id,
         String fullName,
@@ -13,7 +15,8 @@ public record UserDetailResDto(
         String username,
         String password,
         FileInfoResDto fileInfoResDto,
-        String shift
+        String shift,
+        List<UserRoleResDto> roles
 
 ) {
 }
