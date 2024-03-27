@@ -1,6 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
-import com.cghue.projecthousemaidwebapp.domain.dto.res.UserResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
@@ -95,7 +95,7 @@ public class User {
     public ListCustomerResDto toListCustomerResDto() {
         return new ListCustomerResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
-                this.gender.name(), this.username, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null
+                this.gender.name(), this.username, this.fileInfo != null ? this.fileInfo.getFileUrl() : null
         );
     }
 

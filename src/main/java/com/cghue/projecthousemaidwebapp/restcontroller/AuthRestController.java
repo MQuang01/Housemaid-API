@@ -20,7 +20,7 @@ public class AuthRestController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid RegisterReqDto userNew,
-                                          @RequestParam("avatar") MultipartFile avatar) throws IOException {
+                                          @RequestParam(value = "avatar", required = false) MultipartFile avatar) throws IOException {
 
         userService.register(userNew, avatar);
         return ResponseEntity.ok("User registered successfully!");
