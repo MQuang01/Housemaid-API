@@ -5,6 +5,7 @@ import com.cghue.projecthousemaidwebapp.domain.Job;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.JobReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.JobResDto;
+import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeJob;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
 import com.cghue.projecthousemaidwebapp.repository.IJobRepository;
 import com.cghue.projecthousemaidwebapp.service.IJobService;
@@ -25,11 +26,6 @@ public class JobService implements IJobService {
     private final UploadService uploadService;
 
     @Override
-    public List<JobResDto> getAllJobs() {
-        return iJobRepository.findAll().stream().map(Job::toResDto).toList();
-    }
-
-    @Override
     public JobResDto findJobById(Long id) {
         return iJobRepository.findById(id).map(Job::toResDto).orElse(null);
     }
@@ -41,9 +37,11 @@ public class JobService implements IJobService {
         newJob.setName(job.getName());
         newJob.setPrice(job.getPrice());
         newJob.setTimeApprox(job.getTimeApprox());
+        newJob.setTypeJob(ETypeJob.valueOf(job.getTypeJob()));
         newJob.setCategory(iCategoryRepository.findById(job.getCategoryId()).orElse(null));
         newJob.setFileInfo(fileInfo);
         iJobRepository.save(newJob);
+
         return newJob.toResDto();
     }
 

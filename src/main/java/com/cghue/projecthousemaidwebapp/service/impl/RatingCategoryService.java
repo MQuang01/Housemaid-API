@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.service.impl;
 
+import com.cghue.projecthousemaidwebapp.domain.Category;
 import com.cghue.projecthousemaidwebapp.domain.FeedBack;
 import com.cghue.projecthousemaidwebapp.domain.RatingCategory;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.RatingCategoryResDto;
@@ -33,5 +34,10 @@ public class RatingCategoryService implements IRatingCategoryService {
         ratingCategory.setPercent(iRatingCategoryRepository.sumRatingFeedBackWithCategoryID(categoryId)
                 / iRatingCategoryRepository.countFeedBackOfCategoryByCategoryId(categoryId));
         iRatingCategoryRepository.save(ratingCategory);
+    }
+
+    @Override
+    public void addRatingCategory(Category category) {
+        iRatingCategoryRepository.save(new RatingCategory(category, 5F));
     }
 }
