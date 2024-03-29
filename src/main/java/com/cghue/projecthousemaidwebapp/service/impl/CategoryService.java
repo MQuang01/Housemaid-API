@@ -6,6 +6,7 @@ import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
+import com.cghue.projecthousemaidwebapp.repository.IRatingCategoryRepository;
 import com.cghue.projecthousemaidwebapp.service.ICategoryService;
 import com.cghue.projecthousemaidwebapp.service.IRatingCategoryService;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class CategoryService implements ICategoryService {
     private final ICategoryRepository categoryRepository;
     private final IRatingCategoryService ratingCategoryService;
+    private final IRatingCategoryRepository ratingCategoryRepository;
     private final UploadService uploadService;
 
     @Override
@@ -60,6 +62,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public boolean deleteCategory(Long id) {
+        ratingCategoryRepository.deleteByCategoryId(id);
         Category category = categoryRepository.findById(id).orElse(null);
         if (category != null) {
             categoryRepository.delete(category);

@@ -38,6 +38,7 @@ public class JobService implements IJobService {
         newJob.setPrice(job.getPrice());
         newJob.setTimeApprox(job.getTimeApprox());
         newJob.setTypeJob(ETypeJob.valueOf(job.getTypeJob()));
+        newJob.setTimeApprox(Integer.valueOf(job.getTimeApprox()));
         newJob.setCategory(iCategoryRepository.findById(job.getCategoryId()).orElse(null));
         newJob.setFileInfo(fileInfo);
         iJobRepository.save(newJob);

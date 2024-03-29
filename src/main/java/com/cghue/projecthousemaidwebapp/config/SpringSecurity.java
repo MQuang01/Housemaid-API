@@ -50,9 +50,11 @@ public class SpringSecurity {
                                 .requestMatchers("/api/jobs/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
                                 .requestMatchers("/api/categories/**").permitAll()
+                                .requestMatchers("/api/categories").permitAll()
+                                .requestMatchers("/api/categories/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
-                                .requestMatchers("/api/dash-boards/**").permitAll()
+                                .requestMatchers("/api/dash-boards/employees").permitAll()
                                 .anyRequest().authenticated())
                 .logout(
                         logout -> logout
