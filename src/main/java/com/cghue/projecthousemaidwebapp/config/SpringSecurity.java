@@ -46,6 +46,8 @@ public class SpringSecurity {
                                 .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/jobs/**").permitAll()
                                 .requestMatchers("/api/categories").permitAll()
+                                .requestMatchers("/api/categories/**").permitAll()
+
                                 .requestMatchers(HttpMethod.POST,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers("/api/dash-boards/employees").permitAll()
