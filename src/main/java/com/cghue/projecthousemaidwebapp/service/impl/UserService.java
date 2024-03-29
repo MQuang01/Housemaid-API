@@ -3,7 +3,6 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.*;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserLoginReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.RegisterReqDto;
-import com.cghue.projecthousemaidwebapp.domain.dto.res.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
