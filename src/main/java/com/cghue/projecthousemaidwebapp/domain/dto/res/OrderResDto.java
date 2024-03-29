@@ -20,7 +20,7 @@ public class OrderResDto {
     private String orderName;
     private String address;
     private EStatusOrder status;
-    private Float totalTimeApprox;
+    private Integer totalTimeApprox;
     private Double total;
     private LocalDate workDay;
     private Time timeStart;

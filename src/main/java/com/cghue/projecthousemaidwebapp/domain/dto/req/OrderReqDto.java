@@ -18,7 +18,7 @@ public class OrderReqDto {
     private Long userId;
     private Long categoryId;
     private String address;
-    private Float totalTimeApprox;
+    private Integer totalTimeApprox;
     private Double totalPrice;
     private Integer quantityEmployee;
     private String workDay;
@@ -32,7 +32,7 @@ public class OrderReqDto {
     @NoArgsConstructor
     public static class OrderDetailReqDto {
         private Long jobId;
-        private Float timeApprox;
+        private Integer timeApprox;
         private Integer quantity;
         private Integer houseSize;
     }

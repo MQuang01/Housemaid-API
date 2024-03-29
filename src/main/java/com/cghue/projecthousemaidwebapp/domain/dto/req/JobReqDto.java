@@ -14,6 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class JobReqDto {
     private String name;
     private Double price;
-    private Float timeApprox;
+    private Integer timeApprox;
     private Long categoryId;
 }

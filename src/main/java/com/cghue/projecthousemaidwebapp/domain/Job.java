@@ -26,7 +26,7 @@ public class Job {
 
     private Double price;
 
-    private Float timeApprox;
+    private Integer timeApprox;
 
     @Enumerated(EnumType.STRING)
     private ETypeJob typeJob;
