@@ -30,7 +30,7 @@ public class Order {
     @ManyToOne
     private Category category;
 
-    private Float totalTimeApprox;
+    private Integer totalTimeApprox;
 
     @Enumerated(EnumType.STRING)
     private EStatusOrder statusOrder;

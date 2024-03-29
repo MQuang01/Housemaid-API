@@ -12,9 +12,9 @@ public class JobListResDto{
     private String urlImage;
     private String type;
     private Double price;
-    private Float timeApprox;
+    private Integer timeApprox;
 
-    public JobListResDto(Long id, String name, String urlImage, Double price, Float timeApprox) {
+    public JobListResDto(Long id, String name, String urlImage, Double price, Integer timeApprox) {
         this.id = id;
         this.name = name;
         this.urlImage = urlImage;
@@ -22,7 +22,7 @@ public class JobListResDto{
         this.timeApprox = timeApprox;
     }
 
-    public JobListResDto(Long id, String name, String urlImage, ETypeJob type, Double price, Float timeApprox) {
+    public JobListResDto(Long id, String name, String urlImage, ETypeJob type, Double price, Integer timeApprox) {
         this.id = id;
         this.name = name;
         this.urlImage = urlImage;

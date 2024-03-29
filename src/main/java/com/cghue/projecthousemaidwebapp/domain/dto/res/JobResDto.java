@@ -16,7 +16,7 @@ public class JobResDto {
     private String name;
     private FileInfoResDto fileInfo;
     private Double price;
-    private Float timeApprox;
+    private Integer timeApprox;
     private CategoryResDto category;
 
 }
