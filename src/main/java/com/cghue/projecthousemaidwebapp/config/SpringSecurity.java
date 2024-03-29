@@ -39,15 +39,19 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/api/auths/**").permitAll()
+                        authorize
+                                .requestMatchers("/api/auths/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/auths/**").permitAll()
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/api/ratings").permitAll()
                                 .requestMatchers("/").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
+//                                .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/jobs/**").permitAll()
+                                .requestMatchers("/api/jobs/**").permitAll()
+//                                .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
+                                .requestMatchers("/api/categories/**").permitAll()
                                 .requestMatchers("/api/categories").permitAll()
                                 .requestMatchers("/api/categories/**").permitAll()
-
                                 .requestMatchers(HttpMethod.POST,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .requestMatchers("/api/dash-boards/employees").permitAll()
@@ -57,6 +61,9 @@ public class SpringSecurity {
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                 )
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
+                    httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new RestAuthenticationEntryPoint());
+                })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

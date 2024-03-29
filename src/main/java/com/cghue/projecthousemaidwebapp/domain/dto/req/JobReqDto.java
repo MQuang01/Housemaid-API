@@ -16,4 +16,5 @@ public class JobReqDto {
     private Double price;
     private Integer timeApprox;
     private Long categoryId;
+    private String typeJob;
 }
