@@ -25,6 +25,11 @@ public class RatingCategory {
 
     private Float percent;
 
+    public RatingCategory(Category category, Float percent) {
+        this.category = category;
+        this.percent = percent;
+    }
+
     public RatingCategoryResDto toResDto() {
         return new RatingCategoryResDto(id, category.getName(), percent);
     }

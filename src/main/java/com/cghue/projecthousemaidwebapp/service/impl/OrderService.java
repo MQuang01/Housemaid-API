@@ -41,24 +41,24 @@ public class OrderService implements IOrderService {
         order.setUser(userRepository.findById(orderReqDto.getUserId()).get());
         order.setCategory(categoryRepository.findById(orderReqDto.getCategoryId()).get());
         order.setCurrentlyCode(String.format(CurrentlyCode.CODE, LocalTime.now().format(DateTimeFormat.FORMAT)));
-        float totalTimeApprox = 0f;
-        double totalPrice = 0;
-        for (OrderReqDto.OrderDetailReqDto orderDetailReqDto : orderReqDto.getListOrderDetail()) {
-            if (orderDetailReqDto.getHouseSize() == null && orderDetailReqDto.getQuantity() == null) {
-                totalTimeApprox += orderDetailReqDto.getTimeApprox();
-                totalPrice += jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
-            }
-            if (orderDetailReqDto.getHouseSize() != null && orderDetailReqDto.getQuantity() == null) {
-                totalTimeApprox += orderDetailReqDto.getHouseSize() * orderDetailReqDto.getTimeApprox();
-                totalPrice += orderDetailReqDto.getHouseSize() * jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
-            }
-            if(orderDetailReqDto.getHouseSize() == null && orderDetailReqDto.getQuantity() != null) {
-                totalTimeApprox += orderDetailReqDto.getQuantity() * orderDetailReqDto.getTimeApprox();
-                totalPrice += orderDetailReqDto.getQuantity() * jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
-            }
-        }
-        order.setTotalPrice(totalPrice);
-        order.setTotalTimeApprox(totalTimeApprox);
+//        Integer totalTimeApprox = 0;
+//        double totalPrice = 0;
+//        for (OrderReqDto.OrderDetailReqDto orderDetailReqDto : orderReqDto.getListOrderDetail()) {
+//            if (orderDetailReqDto.getHouseSize() == null && orderDetailReqDto.getQuantity() == null) {
+//                totalTimeApprox += orderDetailReqDto.getTimeApprox();
+//                totalPrice += jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
+//            }
+//            if (orderDetailReqDto.getHouseSize() != null && orderDetailReqDto.getQuantity() == null) {
+//                totalTimeApprox += orderDetailReqDto.getHouseSize() * orderDetailReqDto.getTimeApprox();
+//                totalPrice += orderDetailReqDto.getHouseSize() * jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
+//            }
+//            if(orderDetailReqDto.getHouseSize() == null && orderDetailReqDto.getQuantity() != null) {
+//                totalTimeApprox += orderDetailReqDto.getQuantity() * orderDetailReqDto.getTimeApprox();
+//                totalPrice += orderDetailReqDto.getQuantity() * jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
+//            }
+//        }
+        order.setTotalPrice(orderReqDto.getTotalPrice());
+        order.setTotalTimeApprox(orderReqDto.getTotalTimeApprox());
         order.setWorkDay(LocalDate.parse(orderReqDto.getWorkDay()));
         order.setTimeStart(Time.valueOf(orderReqDto.getTimeStart()));
 
