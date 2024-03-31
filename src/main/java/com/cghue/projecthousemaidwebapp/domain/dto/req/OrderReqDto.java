@@ -26,15 +26,6 @@ public class OrderReqDto {
 
     private List<OrderDetailReqDto> listOrderDetail;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class OrderDetailReqDto {
-        private Long jobId;
-        private Integer timeApprox;
-        private Integer quantity;
-        private Integer houseSize;
-    }
+
 }
 

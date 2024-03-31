@@ -25,16 +25,20 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
 
-    public String generateToken(String urlImage ,String fullName, String email, String username, List<UserRoleResDto> roles) {
+    public String generateToken(Long id ,String urlImage ,String fullName, String email, String address, String phone, String username, List<UserRoleResDto> roles) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
+                .claim("id", id)
                 .claim("urlImage", urlImage)
                 .claim("fullName", fullName)
                 .claim("email", email)
+                .claim("address", address)
+                .claim("phone", phone)
                 .claim("username", username)
                 .claim("roles", roles)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS512)
