@@ -156,7 +156,7 @@ public class UserService implements IUserService, UserDetailsService {
         userNew.setCreatedAt(LocalDate.now());
 
         User userCreated =  userRepository.save(userNew);
-        saveUserRole(userCreated, roleRepository.findById(1L).orElseThrow(() -> new NoSuchElementException("Role not found")));
+        saveUserRole(userCreated, roleRepository.findById(2L).orElseThrow(() -> new NoSuchElementException("Role not found")));
     }
 
     @Override

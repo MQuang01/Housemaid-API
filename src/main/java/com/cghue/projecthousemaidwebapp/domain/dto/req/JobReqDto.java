@@ -22,4 +22,5 @@ public class JobReqDto {
     private String typeJob;
 
     private Long categoryId;
+    private String typeJob;
 }

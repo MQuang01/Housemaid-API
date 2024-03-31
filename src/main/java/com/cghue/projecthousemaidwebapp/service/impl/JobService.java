@@ -26,11 +26,6 @@ public class JobService implements IJobService {
     private final UploadService uploadService;
 
     @Override
-    public List<JobResDto> getAllJobs() {
-        return iJobRepository.findAll().stream().map(Job::toResDto).toList();
-    }
-
-    @Override
     public JobResDto findJobById(Long id) {
         return iJobRepository.findById(id).map(Job::toResDto).orElse(null);
     }
@@ -46,6 +41,7 @@ public class JobService implements IJobService {
         newJob.setCategory(iCategoryRepository.findById(job.getCategoryId()).orElse(null));
         newJob.setFileInfo(fileInfo);
         iJobRepository.save(newJob);
+
         return newJob.toResDto();
     }
 
