@@ -15,9 +15,11 @@ public class CustomUserDetails extends User implements UserDetails {
 
 
     public CustomUserDetails(User user, List<UserRole> roles) {
+        this.setId(user.getId());
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setFullName(user.getFullName());
+        this.setUserRoles(roles);
 
         List<GrantedAuthority> auths = new ArrayList<>();
 

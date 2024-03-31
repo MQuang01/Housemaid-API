@@ -17,5 +17,13 @@ public enum ETypeJob {
     public String getName() {
         return name;
     }
+    public static ETypeJob findByName(String name) {
+        for (ETypeJob eTypeJob : ETypeJob.values()) {
+            if (eTypeJob.getName().equals(name)) {
+                return eTypeJob;
+            }
+        }
+        return null;
+    }
 
 }

@@ -5,20 +5,21 @@ import com.cghue.projecthousemaidwebapp.domain.OrderEmployee;
 import com.cghue.projecthousemaidwebapp.domain.User;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
+import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import com.cghue.projecthousemaidwebapp.repository.*;
 import com.cghue.projecthousemaidwebapp.service.IOrderService;
 import com.cghue.projecthousemaidwebapp.utils.CurrentlyCode;
-import com.cghue.projecthousemaidwebapp.utils.DateTimeFormat;
+import com.cghue.projecthousemaidwebapp.utils.FormatTimeAppUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 
 @Service
 @AllArgsConstructor
@@ -37,48 +38,43 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderResDto createOrder(OrderReqDto orderReqDto) {
+        User user = userRepository.findById(orderReqDto.getUserId()).get();
+        List<Order> listOrder = orderRepository.findAllByUser(user);
+
+        if(listOrder.size() > 0) {
+            for (Order order : listOrder) {
+                if (order.getCreatedAt().isEqual(LocalDate.parse(orderReqDto.getWorkDay()))) {
+                    throw new IllegalArgumentException("Người dùng đang có đơn hàng trong ngày");
+                }
+            }
+        }
         Order order = new Order();
         order.setUser(userRepository.findById(orderReqDto.getUserId()).get());
+        order.setAddress(orderReqDto.getAddress());
         order.setCategory(categoryRepository.findById(orderReqDto.getCategoryId()).get());
-        order.setCurrentlyCode(String.format(CurrentlyCode.CODE, LocalTime.now().format(DateTimeFormat.FORMAT)));
-//        Integer totalTimeApprox = 0;
-//        double totalPrice = 0;
-//        for (OrderReqDto.OrderDetailReqDto orderDetailReqDto : orderReqDto.getListOrderDetail()) {
-//            if (orderDetailReqDto.getHouseSize() == null && orderDetailReqDto.getQuantity() == null) {
-//                totalTimeApprox += orderDetailReqDto.getTimeApprox();
-//                totalPrice += jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
-//            }
-//            if (orderDetailReqDto.getHouseSize() != null && orderDetailReqDto.getQuantity() == null) {
-//                totalTimeApprox += orderDetailReqDto.getHouseSize() * orderDetailReqDto.getTimeApprox();
-//                totalPrice += orderDetailReqDto.getHouseSize() * jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
-//            }
-//            if(orderDetailReqDto.getHouseSize() == null && orderDetailReqDto.getQuantity() != null) {
-//                totalTimeApprox += orderDetailReqDto.getQuantity() * orderDetailReqDto.getTimeApprox();
-//                totalPrice += orderDetailReqDto.getQuantity() * jobRepository.findById(orderDetailReqDto.getJobId()).get().getPrice();
-//            }
-//        }
+//        order.setCurrentlyCode(CurrentlyCode.CODE_ORDER);
         order.setTotalPrice(orderReqDto.getTotalPrice());
         order.setTotalTimeApprox(orderReqDto.getTotalTimeApprox());
         order.setWorkDay(LocalDate.parse(orderReqDto.getWorkDay()));
-        order.setTimeStart(Time.valueOf(orderReqDto.getTimeStart()));
-
+        order.setTimeStart(FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()));
         order.setStatusOrder(EStatusOrder.WAITING);
         order.setCreatedAt(LocalDate.now());
 
-        orderRepository.save(order);
-
         List<User> listEmployee = new ArrayList<>();
         List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee());
-        for (int i = 0; i < orderReqDto.getQuantityEmployee(); i++) {
-            User user = listEmployeeFree.get(i);
-            if(orderReqDto.getTimeStart().compareTo(String.valueOf(user.getShift().getStartTime())) >= 0
-                    && orderReqDto.getTimeStart().compareTo(String.valueOf(user.getShift().getEndTime())) <= 0) {
-                listEmployee.add(user);
+        for (User employee : listEmployeeFree) {
+            for (EShift shift : EShift.values()) {
+                if (FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isAfter(shift.getStartTime()) && FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isBefore(shift.getEndTime())) {
+                    listEmployee.add(employee);
+                    break;
+                }
             }
         }
 
+        orderRepository.save(order);
+
         if(!handleListEmployee(order, listEmployee)) {
-           throw new RuntimeException("Không thể tạo đơn");
+            throw new NoSuchElementException("Không tìm thấy nhân viên phù hợp");
         }
 
         return order.toResDto();

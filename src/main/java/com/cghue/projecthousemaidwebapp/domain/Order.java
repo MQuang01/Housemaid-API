@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -44,7 +45,7 @@ public class Order {
 
     private LocalDate workDay;
 
-    private Time timeStart;
+    private LocalTime timeStart;
 
     public OrderResDto toResDto() {
         return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);

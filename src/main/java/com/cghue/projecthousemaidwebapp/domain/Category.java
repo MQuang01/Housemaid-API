@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 @AllArgsConstructor
@@ -20,6 +22,9 @@ public class Category {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    private List<Job> jobs;
 
     @OneToOne
     private FileInfo fileInfo;

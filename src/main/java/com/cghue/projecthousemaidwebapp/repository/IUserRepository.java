@@ -19,7 +19,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
                     "inner join order_employees oe on u.id = oe.employee_id " +
                     "inner join orders o on oe.order_id = o.id " +
                     "where o.status_order = 'PROCESS' " +
-                    ") and u.type_user = 'EMPLOYEE' LIMIT :limit" , nativeQuery = true
+                    ") and u.type_user = 'EMPLOYEE' " +
+                    "and u.is_active = true LIMIT :limit" , nativeQuery = true
     )
     List<User> findAllEmployeeFreeTime(int limit);
 

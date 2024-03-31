@@ -30,28 +30,28 @@ public class JobRestController {
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<?> getJobsByCategoryId(@PathVariable Long id){
+    public ResponseEntity<?> getJobsByCategoryId(@PathVariable Long id) {
         return ResponseEntity.ok(iJobService.getJobsByCategoryId(id));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getJobById(@PathVariable Long id){
+    public ResponseEntity<?> getJobById(@PathVariable Long id) {
         return ResponseEntity.ok(iJobService.findJobById(id));
     }
 
     @PostMapping
     public ResponseEntity<?> addJob(@RequestParam("avatar") MultipartFile avatar,
-                                    @Valid JobReqDto jobReqDto) throws IOException {
+                                    JobReqDto jobReqDto) throws IOException {
         return ResponseEntity.ok(iJobService.addJob(jobReqDto, avatar));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateJob(@RequestBody JobReqDto jobReqDto, @PathVariable Long id){
+    public ResponseEntity<?> updateJob(@RequestBody JobReqDto jobReqDto, @PathVariable Long id) {
         return ResponseEntity.ok(iJobService.updateJob(id, jobReqDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteJob(@PathVariable Long id){
+    public ResponseEntity<?> deleteJob(@PathVariable Long id) {
         return ResponseEntity.ok(iJobService.deleteJob(id));
     }
 }

@@ -27,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
@@ -46,8 +48,15 @@ public class UserService implements IUserService, UserDetailsService {
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        var userRoles = userRoleRepository.findAllByUserId(user.getId());
-        return new CustomUserDetails(user, userRoles);
+//        var userRoles = userRoleRepository.findAllByUserId(user.getId());
+
+        var userRoles = userRoleRepository.findByUser(user);
+
+        var customUserDetails = new CustomUserDetails(user, userRoles);
+
+        return customUserDetails;
+
+//        return new CustomUserDetails(user, userRoles);
     }
 
     @Override
@@ -96,7 +105,16 @@ public class UserService implements IUserService, UserDetailsService {
         return userRepository.findAllUserWithSearch(pageable, search, typeUser).map(User::toListCustomerResDto);
     }
 
+//    @Override
+//    public Optional<UserRole> findByUser(User user) {
+//        return userRoleRepository.findByUser(user);
+//    }
 
+
+    @Override
+    public List<UserRole> findByUser(User user) {
+        return userRoleRepository.findByUser(user);
+    }
 
     @Transactional
     public void saveUserRole(User user, Role role) {
@@ -150,9 +168,13 @@ public class UserService implements IUserService, UserDetailsService {
             throw new IllegalStateException("Wrong password or username");
         }
         UserDetailResDto userDetailResDto = getUserDetailBy(request.username());
-        return jwtTokenProvider.generateToken(userDetailResDto.fileInfoResDto().getUrl() ,
+
+        return jwtTokenProvider.generateToken(userDetailResDto.id(),
+                userDetailResDto.fileInfoResDto().getUrl() ,
                 userDetailResDto.fullName(),
                 userDetailResDto.email(),
+                userDetailResDto.address(),
+                userDetailResDto.phone(),
                 userDetailResDto.username(),
                 userDetailResDto.roles());
     }

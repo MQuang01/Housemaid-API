@@ -23,7 +23,7 @@ public class CategoryRestController {
 
     @PostMapping
     public ResponseEntity<?> addCategory(@RequestParam("avatar") MultipartFile avatar ,
-                                         @Valid CategoryReqDto categoryReqDto) throws IOException {
+                                         CategoryReqDto categoryReqDto) throws IOException {
         return ResponseEntity.ok(iCategoryService.addCategory(categoryReqDto, avatar));
     }
 

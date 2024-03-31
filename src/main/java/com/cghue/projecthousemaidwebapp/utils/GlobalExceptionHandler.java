@@ -29,4 +29,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNoSuchElementExceptions(IllegalStateException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
 }
