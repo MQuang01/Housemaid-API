@@ -41,7 +41,7 @@ public class OrderService implements IOrderService {
         User user = userRepository.findById(orderReqDto.getUserId()).get();
         List<Order> listOrder = orderRepository.findAllByUser(user);
 
-        if(listOrder.size() > 0) {
+        if(!listOrder.isEmpty()) {
             for (Order order : listOrder) {
                 if (order.getCreatedAt().isEqual(LocalDate.parse(orderReqDto.getWorkDay()))) {
                     throw new IllegalArgumentException("Người dùng đang có đơn hàng trong ngày");
