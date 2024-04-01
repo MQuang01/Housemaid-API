@@ -6,10 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,18 +45,19 @@ public class SpringSecurity {
                                 .requestMatchers("/api/auths/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/auths/**").permitAll()
                                 .requestMatchers("/static/**").permitAll()
-                                .requestMatchers("/api/ratings").permitAll()
                                 .requestMatchers("/").permitAll()
-//                                .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/jobs/**").permitAll()
-                                .requestMatchers("/api/jobs/**").permitAll()
-//                                .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
                                 .requestMatchers("/api/categories/**").permitAll()
                                 .requestMatchers("/api/categories").permitAll()
-                                .requestMatchers("/api/categories/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/api/orders").hasAnyRole("ADMIN","USER")
-                                .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
+                                .requestMatchers("/api/jobs/**").permitAll()
+//                                .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
                                 .requestMatchers("/api/dash-boards/employees").permitAll()
+//                                .requestMatchers(HttpMethod.POST,"/api/orders").permitAll()
+//                                .requestMatchers("/api/ratings").permitAll()
+//                                .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
+//                                .requestMatchers(HttpMethod.POST, "/api/jobs").permitAll()
+//                                .requestMatchers(HttpMethod.PUT,"/api/jobs/*").permitAll()
+////                                .requestMatchers("/api/test").hasRole("USER")
+//                                .requestMatchers(HttpMethod.GET,"/api/orders").hasAnyRole("ADMIN","USER")
                                 .anyRequest().authenticated())
                 .logout(
                         logout -> logout
@@ -75,8 +78,8 @@ public class SpringSecurity {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+        return auth.getAuthenticationManager();
     }
 
 }

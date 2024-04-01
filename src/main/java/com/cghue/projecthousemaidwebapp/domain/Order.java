@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "orders")
@@ -43,7 +43,7 @@ public class Order {
 
     private LocalDate workDay;
 
-    private Time timeStart;
+    private LocalTime timeStart;
 
     public OrderResDto toResDto() {
         return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);

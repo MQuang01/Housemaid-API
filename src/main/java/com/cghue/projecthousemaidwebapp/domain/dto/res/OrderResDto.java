@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ public class OrderResDto {
     private Integer totalTimeApprox;
     private Double total;
     private LocalDate workDay;
-    private Time timeStart;
+    private LocalTime timeStart;
     private String currentlyCode;
     private LocalDate createdAt;
 }
