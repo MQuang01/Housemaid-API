@@ -8,10 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -50,4 +48,5 @@ public class Order {
     public OrderResDto toResDto() {
         return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
     }
+
 }

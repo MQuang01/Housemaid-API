@@ -26,9 +26,8 @@ public class JobRestController {
 
     @GetMapping
     public ResponseEntity<Page<JobListResDto>> findAllWithSearch(@RequestParam(required = false, defaultValue = "") String search
-            , @RequestParam(required = false) Long categoryId
             , @PageableDefault(sort = "id") Pageable pageable) {
-        return ResponseEntity.ok(iJobService.findAllWithSearch(search, categoryId, pageable));
+        return ResponseEntity.ok(iJobService.findAllWithSearch(search, pageable));
     }
     @GetMapping("/category/{id}")
     public ResponseEntity<?> getJobsByCategoryId(@PathVariable Long id) {
