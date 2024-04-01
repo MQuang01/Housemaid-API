@@ -14,6 +14,8 @@ public interface ICategoryService {
     List<CategoryListResDto> getAllCategories();
     Page<CategoryResDto> getAllCategoriesPage(Pageable pageable, String search);
     CategoryResDto addCategory(CategoryReqDto categoryReqDto, MultipartFile avatar) throws IOException;
+
+    CategoryResDto getCategoryBy(Long id);
     boolean updateCategory(Long id,CategoryReqDto categoryReqDto);
     boolean deleteCategory(Long id);
 }

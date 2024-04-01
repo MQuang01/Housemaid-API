@@ -20,7 +20,7 @@ public interface IJobService {
 
     boolean deleteJob(Long id);
 
-    Page<JobListResDto> findAllWithSearch(String search, Long categoryId, Pageable pageable);
+    Page<JobListResDto> findAllWithSearch(String search, Pageable pageable);
 
     List<JobListResDto> getJobsByCategoryId(Long id);
 }

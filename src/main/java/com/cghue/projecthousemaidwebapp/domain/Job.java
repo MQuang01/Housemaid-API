@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.JobResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeJob;
 import jakarta.persistence.*;
@@ -40,5 +41,8 @@ public class Job {
             return new JobResDto(id, name, null, price, timeApprox, category.toResDto());
         }
         return new JobResDto(id, name, fileInfo.toResDto(), price, timeApprox, category.toResDto());
+    }
+    public JobListResDto toListResDto() {
+        return new JobListResDto(id, name, fileInfo.getFileUrl(), typeJob, price, timeApprox, category);
     }
 }

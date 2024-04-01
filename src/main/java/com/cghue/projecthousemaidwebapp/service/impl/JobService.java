@@ -79,9 +79,8 @@ public class JobService implements IJobService {
     }
 
     @Override
-    public Page<JobListResDto> findAllWithSearch(String search, Long categoryId, Pageable pageable) {
-        search = "%" + search + "%";
-        return iJobRepository.findAllWithSearch(search, categoryId, pageable);
+    public Page<JobListResDto> findAllWithSearch(String search, Pageable pageable) {
+        return iJobRepository.findAllByNameContainingIgnoreCase(search, pageable).map(Job::toListResDto);
     }
 
     @Override

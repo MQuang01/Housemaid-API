@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -45,6 +46,12 @@ public class CategoryService implements ICategoryService {
         category.setFileInfo(fileInfo);
         ratingCategoryService.addRatingCategory(categoryRepository.save(category));
         return category.toResDto();
+    }
+
+    @Override
+    public CategoryResDto getCategoryBy(Long id) {
+        return categoryRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Category not found by: " + id)).toResDto();
     }
 
     @Override
