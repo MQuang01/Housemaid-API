@@ -31,6 +31,11 @@ public class CategoryRestController {
         return ResponseEntity.ok(iCategoryService.getAllCategoriesPage(pageable, search));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategoryBy(@PathVariable Long id) {
+        return ResponseEntity.ok(iCategoryService.getCategoryBy(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> addCategory(@RequestParam("avatar") MultipartFile avatar ,
                                          CategoryReqDto categoryReqDto) throws IOException {

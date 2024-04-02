@@ -11,12 +11,7 @@ import java.util.List;
 
 public interface IJobRepository extends JpaRepository<Job, Long> {
 
-    @Query ("SELECT " +
-            "new com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto(j.id, j.name, j.fileInfo.fileUrl, j.typeJob, j.price, j.timeApprox, j.category) " +
-            "FROM Job j join j.category c on j.category.id = c.id " +
-            "WHERE (:categoryId is null or c.id = :categoryId) " +
-            "AND j.name LIKE :search")
-    Page<JobListResDto> findAllWithSearch(String search, Long categoryId, Pageable pageable);
+    Page<Job> findAllByNameContainingIgnoreCase(String search, Pageable pageable);
 
     @Query("SELECT " +
             "new com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto(j.id, j.name, j.fileInfo.fileUrl, j.typeJob, j.price, j.timeApprox, j.category) " +
