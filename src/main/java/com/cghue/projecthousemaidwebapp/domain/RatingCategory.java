@@ -20,7 +20,7 @@ public class RatingCategory {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Category category;
 
     private Float percent;

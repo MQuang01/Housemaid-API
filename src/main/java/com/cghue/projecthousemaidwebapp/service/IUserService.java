@@ -27,4 +27,7 @@ public interface IUserService {
 //    Optional<UserRole> findByUser(User user);
     List<UserRole> findByUser(User user);
 
+    UserDetailResDto getUserByUsername(String username);
+
+    void delete(Long id);
 }

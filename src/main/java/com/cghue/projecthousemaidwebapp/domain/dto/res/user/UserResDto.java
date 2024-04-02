@@ -22,13 +22,13 @@ public class UserResDto {
     private String email;
     private String phone;
     private String address;
-    private LocalDate dob;
+    private String dob;
     private ETypeUser typeUser;
     private EGender gender;
     private Boolean isActive;
     private String username;
     private String password;
     private EShift shift;
-    private LocalDate createdAt;
+    private String createdAt;
     private FileInfoResDto fileInfoResDto;
 }

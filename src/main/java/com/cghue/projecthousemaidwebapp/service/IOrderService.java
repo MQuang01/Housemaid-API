@@ -16,4 +16,6 @@ public interface IOrderService {
     boolean updateOrder(Long id, OrderReqDto orderReqDto);
 
     boolean deleteOrder(Long id);
+
+    OrderResDto getInfoOrder(String code);
 }

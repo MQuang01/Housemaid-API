@@ -116,6 +116,16 @@ public class UserService implements IUserService, UserDetailsService {
         return userRoleRepository.findByUser(user);
     }
 
+    @Override
+    public UserDetailResDto getUserByUsername(String username) {
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new NoSuchElementException("User not found with username: " + username)).toUserDetailResDto();
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
     @Transactional
     public void saveUserRole(User user, Role role) {
         UserRole userRole = new UserRole(user, role);

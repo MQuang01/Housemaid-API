@@ -9,8 +9,9 @@ import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import com.cghue.projecthousemaidwebapp.repository.*;
 import com.cghue.projecthousemaidwebapp.service.IOrderService;
-import com.cghue.projecthousemaidwebapp.utils.CurrentlyCode;
+import com.cghue.projecthousemaidwebapp.utils.AppConstant;
 import com.cghue.projecthousemaidwebapp.utils.FormatTimeAppUtil;
+import com.cghue.projecthousemaidwebapp.utils.SendEmail;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class OrderService implements IOrderService {
     private final IUserRepository userRepository;
     private final IJobRepository jobRepository;
     private final IOrderEmployeeRepository orderEmployeeRepository;
+    private final EmailService emailService;
 
 
     @Override
@@ -41,7 +43,7 @@ public class OrderService implements IOrderService {
         User user = userRepository.findById(orderReqDto.getUserId()).get();
         List<Order> listOrder = orderRepository.findAllByUser(user);
 
-        if(!listOrder.isEmpty()) {
+        if (!listOrder.isEmpty()) {
             for (Order order : listOrder) {
                 if (order.getCreatedAt().isEqual(LocalDate.parse(orderReqDto.getWorkDay()))) {
                     throw new IllegalArgumentException("Người dùng đang có đơn hàng trong ngày");
@@ -52,7 +54,8 @@ public class OrderService implements IOrderService {
         order.setUser(userRepository.findById(orderReqDto.getUserId()).get());
         order.setAddress(orderReqDto.getAddress());
         order.setCategory(categoryRepository.findById(orderReqDto.getCategoryId()).get());
-//        order.setCurrentlyCode(CurrentlyCode.CODE_ORDER);
+        String code = String.format(AppConstant.get(), FormatTimeAppUtil.getStringFormatTime());
+        order.setCurrentlyCode(code);
         order.setTotalPrice(orderReqDto.getTotalPrice());
         order.setTotalTimeApprox(orderReqDto.getTotalTimeApprox());
         order.setWorkDay(LocalDate.parse(orderReqDto.getWorkDay()));
@@ -60,33 +63,31 @@ public class OrderService implements IOrderService {
         order.setStatusOrder(EStatusOrder.WAITING);
         order.setCreatedAt(LocalDate.now());
 
-        List<User> listEmployee = new ArrayList<>();
-        List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee());
-        for (User employee : listEmployeeFree) {
-            for (EShift shift : EShift.values()) {
-                if (FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isAfter(shift.getStartTime()) && FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isBefore(shift.getEndTime())) {
-                    listEmployee.add(employee);
-                    break;
-                }
+        String shiftReq = "";
+        for (EShift shift : EShift.values()) {
+            if (FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isAfter(shift.getStartTime())
+                    && FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isBefore(shift.getEndTime())) {
+                shiftReq = shift.toString();
+                break;
             }
+        }
+
+        List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), shiftReq);
+
+
+        if (listEmployeeFree.size() < orderReqDto.getQuantityEmployee()) {
+            throw new IllegalArgumentException("Không đủ nhân viên yêu cầu");
         }
 
         orderRepository.save(order);
 
-        if(!handleListEmployee(order, listEmployee)) {
-            throw new NoSuchElementException("Không tìm thấy nhân viên phù hợp");
-        }
+//        createOrderEmployee(order, listEmployeeFree); khoan lưu lại đợi xác nhận mail
+
+        emailService.sendEmail(user.getEmail(), "THÔNG TIN ĐẶT LỊCH CỦA BẠN", SendEmail.EmailScheduledSuccessfully(user.getUsername(), order.getWorkDay().toString(), order.getTimeStart().toString(), String.format(AppConstant.getUrlConfirmOrder(), code), AppConstant.getSignature()));
 
         return order.toResDto();
     }
 
-    private boolean handleListEmployee(Order order, List<User> listEmployee) {
-        if(listEmployee.isEmpty()) {
-            return false;
-        }
-        createOrderEmployee(order, listEmployee);
-        return true;
-    }
 
     @Override
     public OrderResDto getOrderById(Long id) {
@@ -106,6 +107,13 @@ public class OrderService implements IOrderService {
     @Override
     public boolean deleteOrder(Long id) {
         return false;
+    }
+
+    @Override
+    public OrderResDto getInfoOrder(String code) {
+        String[] parts = code.split("\\$");
+        String extractedCode = parts[1];
+        return orderRepository.findByCurrentlyCode(extractedCode).toResDto();
     }
 
     public void createOrderEmployee(Order order, List<User> listEmployee) {

@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderDetailReqDto {
     private Long id;
+    private String name;
     private Integer timeApprox;
     private Integer quantity;
     private Integer houseSize;
