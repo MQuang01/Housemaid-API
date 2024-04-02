@@ -13,7 +13,7 @@ public class AppConstant {
                     Website: http://localhost:3000/\s
                     """;
 
-    public static final String URL_CONFIRM_ORDER = "http://localhost:3000/confirm/$%s$";
+    public static final String URL_CONFIRM_ORDER = "http://localhost:3000/confirm?cod=$%s$&userId=%s";
 
     public static String get() {
         return CODE;

@@ -1,6 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
-import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +24,8 @@ public class Order {
 
     @ManyToOne
     private User user;
-    private String address;
 
+    private String address;
     @ManyToOne
     private Category category;
 
@@ -44,6 +44,8 @@ public class Order {
     private LocalDate workDay;
 
     private LocalTime timeStart;
+
+    private LocalTime timeEnd;
 
     public OrderResDto toResDto() {
         return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox.toString(), totalPrice, String.valueOf(workDay), String.valueOf(timeStart), currentlyCode, String.valueOf(createdAt));
