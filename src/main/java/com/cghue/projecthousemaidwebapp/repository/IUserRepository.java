@@ -1,6 +1,7 @@
 package com.cghue.projecthousemaidwebapp.repository;
 
 import com.cghue.projecthousemaidwebapp.domain.User;
+import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ public interface IUserRepository extends JpaRepository<User, Long> {
                     "inner join orders o on oe.order_id = o.id " +
                     "where o.status_order = 'PROCESS' " +
                     ") and u.type_user = 'EMPLOYEE' " +
-                    "and u.is_active = true LIMIT :limit" , nativeQuery = true
+                    "and u.is_active = true " +
+                    "and u.shift = :shift " +
+                    "or u.shift = 'SHIFT_3' LIMIT :limit" , nativeQuery = true
     )
-    List<User> findAllEmployeeFreeTime(int limit);
+    List<User> findAllEmployeeFreeTime(int limit, String shift);
 
     @Query("SELECT u FROM User u WHERE u.typeUser = :type AND u.fullName LIKE %:name%")
     Page<User> findAllUserWithSearch(Pageable pageable, @Param("name") String name, @Param("type") ETypeUser type);
@@ -34,4 +37,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Cacheable("userByUsername")
     Optional<User> findUserByUsername(String username);
+
+
 }

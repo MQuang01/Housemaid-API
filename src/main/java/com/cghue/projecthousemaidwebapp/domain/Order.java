@@ -48,6 +48,6 @@ public class Order {
     private LocalTime timeStart;
 
     public OrderResDto toResDto() {
-        return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox, totalPrice, workDay, timeStart, currentlyCode, createdAt);
+        return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox.toString(), totalPrice, String.valueOf(workDay), String.valueOf(timeStart), currentlyCode, String.valueOf(createdAt));
     }
 }

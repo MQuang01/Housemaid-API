@@ -30,7 +30,7 @@ public class User {
 
     private String fullName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private FileInfo fileInfo;
 
     @Column(unique = true, nullable = false)
@@ -62,7 +62,7 @@ public class User {
 
     private LocalDate createdAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserRole> userRoles;
 
     //Register Customer
@@ -86,7 +86,7 @@ public class User {
     public UserDetailResDto toUserDetailResDto() {
         return new UserDetailResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
-                this.gender.name(), this.username, this.password, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null,
+                this.gender.name(), this.username, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null,
                 this.shift != null ? this.shift.name() : "",
                 this.userRoles.stream().map(UserRole::toUserRoleResDto).collect(Collectors.toList())
         );
@@ -106,14 +106,14 @@ public class User {
                 email,
                 phone,
                 address,
-                dob,
+                String.valueOf(dob),
                 typeUser,
                 gender,
                 isActive,
                 username,
                 password,
                 shift != null ? shift: null,
-                createdAt,
+                String.valueOf(createdAt),
                 fileInfo != null ? fileInfo.toResDto() : null
         );
     }

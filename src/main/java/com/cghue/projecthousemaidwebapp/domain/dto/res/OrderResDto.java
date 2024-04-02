@@ -21,10 +21,10 @@ public class OrderResDto {
     private String orderName;
     private String address;
     private EStatusOrder status;
-    private Integer totalTimeApprox;
+    private String totalTimeApprox;
     private Double total;
-    private LocalDate workDay;
-    private LocalTime timeStart;
+    private String workDay;
+    private String timeStart;
     private String currentlyCode;
-    private LocalDate createdAt;
+    private String createdAt;
 }

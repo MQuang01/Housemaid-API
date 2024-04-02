@@ -13,7 +13,6 @@ public record UserDetailResDto(
         String dob,
         String gender,
         String username,
-        String password,
         FileInfoResDto fileInfoResDto,
         String shift,
         List<UserRoleResDto> roles

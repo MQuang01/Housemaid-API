@@ -24,9 +24,9 @@ public class CustomUserDetails extends User implements UserDetails {
         List<GrantedAuthority> auths = new ArrayList<>();
 
         for(UserRole role : roles){
-
             auths.add(new SimpleGrantedAuthority(role.getRole().getName().toUpperCase()));
         }
+
         this.authorities = auths;
     }
 

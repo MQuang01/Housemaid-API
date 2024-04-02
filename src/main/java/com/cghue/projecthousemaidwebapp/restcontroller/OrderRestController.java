@@ -21,7 +21,13 @@ public class OrderRestController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/info-order/{code}")
+    public ResponseEntity<?> getInfoOrder(@PathVariable String code) {
+        return ResponseEntity.ok(orderService.getInfoOrder(code));
+    }
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
