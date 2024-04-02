@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrderEmployee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,9 @@ public class OrderEmployee {
 
     @ManyToOne
     private Order order;
+
+    @Enumerated(EnumType.STRING)
+    private EStatusOrderEmployee status;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

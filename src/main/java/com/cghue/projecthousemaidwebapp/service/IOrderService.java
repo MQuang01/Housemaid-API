@@ -1,7 +1,8 @@
 package com.cghue.projecthousemaidwebapp.service;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
-import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderEmployeeResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
 import org.springframework.data.domain.Page;
 
 public interface IOrderService {
@@ -17,5 +18,5 @@ public interface IOrderService {
 
     boolean deleteOrder(Long id);
 
-    OrderResDto getInfoOrder(String code);
+    OrderEmployeeResDto getInfoOrder(String code, Long id);
 }

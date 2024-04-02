@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain.dto.res;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserResDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

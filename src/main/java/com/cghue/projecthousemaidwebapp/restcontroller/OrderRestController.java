@@ -21,9 +21,10 @@ public class OrderRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/info-order/{code}")
-    public ResponseEntity<?> getInfoOrder(@PathVariable String code) {
-        return ResponseEntity.ok(orderService.getInfoOrder(code));
+    @GetMapping("/info-order/{code}/{id}")
+//    @PreAuthorize("hasAnyAuthority('USER')")
+    public ResponseEntity<?> getOrderByCode(@PathVariable String code, @PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getInfoOrder(code, id));
     }
 
     @GetMapping("/{id}")
@@ -32,5 +33,11 @@ public class OrderRestController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
+    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok().build();
+    }
 
 }
