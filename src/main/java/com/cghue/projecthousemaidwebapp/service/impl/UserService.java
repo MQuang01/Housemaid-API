@@ -3,6 +3,7 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 import com.cghue.projecthousemaidwebapp.domain.*;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserLoginReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.RegisterReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserUpdateReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
@@ -61,7 +62,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void update(Long id, RegisterReqDto userEdit) {
+    public void update(Long id, UserUpdateReqDto userEdit) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cannot find the user you are looking for"));
 
         if(!userEdit.email().equals(existingUser.getEmail())) {
@@ -81,9 +82,6 @@ public class UserService implements IUserService, UserDetailsService {
         existingUser.setPhone(userEdit.phone());
         existingUser.setDob(LocalDate.parse(userEdit.dob()));
         existingUser.setGender(EGender.valueOf(userEdit.gender()));
-        existingUser.setUsername(userEdit.username());
-        existingUser.setPassword(userEdit.password());
-
         if (userEdit.shift() != null) {
             existingUser.setShift(EShift.valueOf(userEdit.shift()));
             existingUser.setTypeUser(ETypeUser.EMPLOYEE);
@@ -104,12 +102,6 @@ public class UserService implements IUserService, UserDetailsService {
     public Page<ListCustomerResDto> getAllUserBy(Pageable pageable, String search, ETypeUser typeUser) {
         return userRepository.findAllUserWithSearch(pageable, search, typeUser).map(User::toListCustomerResDto);
     }
-
-//    @Override
-//    public Optional<UserRole> findByUser(User user) {
-//        return userRoleRepository.findByUser(user);
-//    }
-
 
     @Override
     public List<UserRole> findByUser(User user) {

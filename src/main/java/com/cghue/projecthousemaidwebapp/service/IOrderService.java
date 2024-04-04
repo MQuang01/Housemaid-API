@@ -5,6 +5,7 @@ import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderEmployeeResDto
 import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IOrderService {
     Page<OrderResDto> findAllWithSearch(int page, int size);
@@ -19,5 +20,11 @@ public interface IOrderService {
 
     boolean deleteOrder(Long id);
 
+    OrderResDto getInfoOrderBy(String code);
+
+    Page<OrderResDto> findAllOrder(Pageable pageable);
+
+    void editOrderProcess(Long id, String status);
     OrderEmployeeResDto getInfoOrder(String code, Long id);
+
 }
