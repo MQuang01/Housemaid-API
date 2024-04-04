@@ -1,6 +1,9 @@
 package com.cghue.projecthousemaidwebapp.utils;
 
 public class SendEmail {
+
+
+
     public static String EmailCooperate(String username, String sign) {
         return "Kính gửi " + username + ",\n\n"
                 + "Cảm ơn bạn đã đăng ký hợp tác thành công với chúng tôi!\n"
@@ -9,6 +12,7 @@ public class SendEmail {
                 + "Trân trọng,\n\n"
                 + sign;
     }
+
     public static String EmailResetPassword(String username, String code, String sign) {
         return "Kính gửi " + username + ",\n\n"
                 + "Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản của mình.\n"
@@ -19,7 +23,7 @@ public class SendEmail {
     }
 
 
-    public static String EmailScheduledSuccessfully(String username, String day,String time, String url, String sign) {
+    public static String EmailScheduledSuccessfully(String username, String day, String time, String url, String sign) {
         return "Kính gửi " + username + ",\n\n"
                 + "Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!\n"
                 + "Bạn đã đặt lịch vệ sinh thành công tại HouseMaid System.\n"
@@ -33,6 +37,7 @@ public class SendEmail {
                 + "Trân trọng,\n\n"
                 + sign;
     }
+
     public static String ExamScheduleReminder(String name, String bookingDate, String bookingTime, String sign) {
         return "Xin chào " + name + ",\n\n"
                 + "Bạn đã đặt lịch vệ sinh vào ngày " + bookingDate + " vào lúc " + bookingTime + "\n"

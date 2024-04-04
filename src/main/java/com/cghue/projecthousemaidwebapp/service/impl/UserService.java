@@ -118,7 +118,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDetailResDto getUserByUsername(String username) {
+//        User user = userRepository.findUserByUsername(username).get();
         return userRepository.findUserByUsername(username).orElseThrow(() -> new NoSuchElementException("User not found with username: " + username)).toUserDetailResDto();
+//        return null;
     }
 
     @Override
@@ -180,7 +182,7 @@ public class UserService implements IUserService, UserDetailsService {
         UserDetailResDto userDetailResDto = getUserDetailBy(request.username());
 
         return jwtTokenProvider.generateToken(userDetailResDto.id(),
-                userDetailResDto.fileInfoResDto().getUrl() ,
+                userDetailResDto.fileInfoResDto() != null ? userDetailResDto.fileInfoResDto().getUrl() : null,
                 userDetailResDto.fullName(),
                 userDetailResDto.email(),
                 userDetailResDto.address(),
