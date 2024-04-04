@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -184,8 +185,8 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Page<OrderResDto> findAllOrder(Pageable pageable) {
-        return orderRepository.findAll(pageable).map(Order::toResDto);
+    public List<OrderResDto> findAllOrder() {
+        return orderRepository.findAll().stream().map(Order::toResDto).collect(Collectors.toList());
     }
 
     @Override

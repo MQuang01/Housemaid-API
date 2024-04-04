@@ -7,6 +7,8 @@ import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IOrderService {
     Page<OrderResDto> findAllWithSearch(int page, int size);
 
@@ -22,7 +24,7 @@ public interface IOrderService {
 
     OrderResDto getInfoOrderBy(String code);
 
-    Page<OrderResDto> findAllOrder(Pageable pageable);
+    List<OrderResDto> findAllOrder();
 
     void editOrderProcess(Long id, String status);
     OrderEmployeeResDto getInfoOrder(String code, Long id);
