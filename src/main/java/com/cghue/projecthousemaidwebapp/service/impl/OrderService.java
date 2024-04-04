@@ -18,10 +18,12 @@ import com.cghue.projecthousemaidwebapp.utils.SendEmail;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -191,5 +193,26 @@ public class OrderService implements IOrderService {
             orderEmployeeRepository.save(orderEmployee);
 
         }
+    }
+    @Override
+    public Page<OrderResDto> findAllOrder(Pageable pageable) {
+        return orderRepository.findAll(pageable).map(Order::toResDto);
+    }
+
+    @Override
+    public void editOrderProcess(Long id, String status) {
+        Order orderEdit = orderRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Không tìm thấy order theo id:" + id));
+//        switch (status) {
+//            case "WAITING":
+//                orderEdit.setStatusOrder(EStatusOrder.WAITING);
+//            case "COMPLETE":
+//                orderEdit.setStatusOrder(EStatusOrder.COMPLETE);
+//            case "PROCESS":
+//                orderEdit.setStatusOrder(EStatusOrder.PROCESS);
+//        }
+        EStatusOrder statusOrder = EStatusOrder.valueOf(status);
+        orderEdit.setStatusOrder(statusOrder);
+        orderRepository.save(orderEdit);
     }
 }
