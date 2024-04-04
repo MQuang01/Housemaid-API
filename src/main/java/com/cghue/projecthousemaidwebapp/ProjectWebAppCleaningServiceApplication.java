@@ -10,4 +10,5 @@ public class ProjectWebAppCleaningServiceApplication {
 		SpringApplication.run(ProjectWebAppCleaningServiceApplication.class, args);
 	}
 
+
 }
