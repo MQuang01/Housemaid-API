@@ -53,7 +53,7 @@ public class SpringSecurity {
                                 .requestMatchers("/api/users/current-user/**").permitAll()
                                 .requestMatchers("/api/orders/info-order/**").hasRole("USER")
                                 .requestMatchers("/api/users/**").permitAll()
-                                .requestMatchers("/api/dash-boards/employees").permitAll()
+                                .requestMatchers("/api/dash-boards/**").permitAll()
 
 
 //                                .requestMatchers(HttpMethod.POST,"/api/orders").permitAll()
