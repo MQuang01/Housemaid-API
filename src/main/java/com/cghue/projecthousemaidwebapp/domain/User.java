@@ -4,7 +4,6 @@ import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
-import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -57,9 +56,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private EShift shift;
-
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -87,7 +83,6 @@ public class User {
         return new UserDetailResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
                 this.gender.name(), this.username, this.fileInfo != null ? this.fileInfo.toResDto() : null,
-                this.shift != null ? this.shift.name() : "",
                 this.userRoles.stream().map(UserRole::toUserRoleResDto).collect(Collectors.toList())
         );
     }
@@ -112,7 +107,6 @@ public class User {
                 isActive,
                 username,
                 password,
-                shift != null ? shift: null,
                 String.valueOf(createdAt),
                 fileInfo != null ? fileInfo.toResDto() : null
         );
