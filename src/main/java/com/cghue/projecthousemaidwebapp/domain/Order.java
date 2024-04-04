@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import jakarta.persistence.*;
@@ -10,6 +11,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders")
@@ -45,8 +48,19 @@ public class Order {
 
     private LocalTime timeStart;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> listOrderDetail;
+
     public OrderResDto toResDto() {
-        return new OrderResDto(id, user.toUserResDto(), category.getName(),address, statusOrder, totalTimeApprox.toString(), totalPrice, String.valueOf(workDay), String.valueOf(timeStart), currentlyCode, String.valueOf(createdAt));
+        return new OrderResDto(id, user.toUserResDto(),
+                category.getName(),address, statusOrder,
+                totalTimeApprox.toString(), totalPrice,
+                String.valueOf(workDay),
+                String.valueOf(timeStart),
+                currentlyCode,
+                String.valueOf(createdAt),
+                listOrderDetail.stream().map(OrderDetail::toResDto).collect(Collectors.toList())
+                );
     }
 
 }

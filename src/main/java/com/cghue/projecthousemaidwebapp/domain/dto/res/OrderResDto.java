@@ -10,6 +10,7 @@ import lombok.Setter;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,13 +19,14 @@ import java.time.LocalTime;
 public class OrderResDto {
     private Long id;
     private UserResDto user; // người dùng
-    private String orderName;
+    private String categoryName;
     private String address;
     private EStatusOrder status;
     private String totalTimeApprox;
-    private Double total;
+    private Double totalPrice;
     private String workDay;
     private String timeStart;
     private String currentlyCode;
     private String createdAt;
+    private List<OrderDetailResDto> listOrderDetail;
 }

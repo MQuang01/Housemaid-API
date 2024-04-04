@@ -3,6 +3,7 @@ package com.cghue.projecthousemaidwebapp.service;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IOrderService {
     Page<OrderResDto> findAllWithSearch(int page, int size);
@@ -18,4 +19,8 @@ public interface IOrderService {
     boolean deleteOrder(Long id);
 
     OrderResDto getInfoOrder(String code);
+
+    Page<OrderResDto> findAllOrder(Pageable pageable);
+
+    void editOrderProcess(Long id, String status);
 }

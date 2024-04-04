@@ -14,6 +14,8 @@ import com.cghue.projecthousemaidwebapp.utils.FormatTimeAppUtil;
 import com.cghue.projecthousemaidwebapp.utils.SendEmail;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -115,6 +117,29 @@ public class OrderService implements IOrderService {
         String extractedCode = parts[1];
         return orderRepository.findByCurrentlyCode(extractedCode).toResDto();
     }
+
+    @Override
+    public Page<OrderResDto> findAllOrder(Pageable pageable) {
+        return orderRepository.findAll(pageable).map(Order::toResDto);
+    }
+
+    @Override
+    public void editOrderProcess(Long id, String status) {
+        Order orderEdit = orderRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Không tìm thấy order theo id:" + id));
+//        switch (status) {
+//            case "WAITING":
+//                orderEdit.setStatusOrder(EStatusOrder.WAITING);
+//            case "COMPLETE":
+//                orderEdit.setStatusOrder(EStatusOrder.COMPLETE);
+//            case "PROCESS":
+//                orderEdit.setStatusOrder(EStatusOrder.PROCESS);
+//        }
+        EStatusOrder statusOrder = EStatusOrder.valueOf(status);
+        orderEdit.setStatusOrder(statusOrder);
+        orderRepository.save(orderEdit);
+    }
+
 
     public void createOrderEmployee(Order order, List<User> listEmployee) {
         for (User user : listEmployee) {

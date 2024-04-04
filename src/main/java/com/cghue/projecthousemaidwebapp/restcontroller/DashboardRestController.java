@@ -1,6 +1,7 @@
 package com.cghue.projecthousemaidwebapp.restcontroller;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.user.RegisterReqDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserUpdateReqDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import com.cghue.projecthousemaidwebapp.service.IUserService;
 import jakarta.validation.Valid;
@@ -36,7 +37,7 @@ public class DashboardRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id,
-                                              @Valid @RequestBody RegisterReqDto userEdit) {
+                                              @Valid @RequestBody UserUpdateReqDto userEdit) {
         userService.update(id, userEdit);
         return ResponseEntity.ok("User update successfully!");
     }
