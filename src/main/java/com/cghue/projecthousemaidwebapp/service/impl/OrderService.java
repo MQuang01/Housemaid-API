@@ -19,6 +19,7 @@ import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -178,26 +179,22 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public OrderResDto getInfoOrderBy(String code) {
+        return null;
+    }
+
+    @Override
+    public Page<OrderResDto> findAllOrder(Pageable pageable) {
+        return orderRepository.findAll(pageable).map(Order::toResDto);
+    }
+
+    @Override
     public OrderEmployeeResDto getInfoOrder(String code, Long id) {
         String[] parts = code.split("\\$");
         String extractedCode = parts[1];
         return orderRepository.findByCurrentlyCode(extractedCode, id);
     }
 
-    public void createOrderEmployee(Order order, List<User> listEmployee) {
-        for (User user : listEmployee) {
-            OrderEmployee orderEmployee = new OrderEmployee();
-            orderEmployee.setOrder(order);
-            orderEmployee.setEmployee(user);
-            orderEmployee.setStatus(EStatusOrderEmployee.WAITING);
-            orderEmployeeRepository.save(orderEmployee);
-
-        }
-    }
-    @Override
-    public Page<OrderResDto> findAllOrder(Pageable pageable) {
-        return orderRepository.findAll(pageable).map(Order::toResDto);
-    }
 
     @Override
     public void editOrderProcess(Long id, String status) {
@@ -215,4 +212,17 @@ public class OrderService implements IOrderService {
         orderEdit.setStatusOrder(statusOrder);
         orderRepository.save(orderEdit);
     }
+
+
+    public void createOrderEmployee(Order order, List<User> listEmployee) {
+        for (User user : listEmployee) {
+            OrderEmployee orderEmployee = new OrderEmployee();
+            orderEmployee.setOrder(order);
+            orderEmployee.setEmployee(user);
+            orderEmployee.setStatus(EStatusOrderEmployee.WAITING);
+            orderEmployeeRepository.save(orderEmployee);
+
+        }
+    }
+
 }

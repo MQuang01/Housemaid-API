@@ -20,9 +20,11 @@ public interface IOrderService {
 
     boolean deleteOrder(Long id);
 
-    OrderEmployeeResDto getInfoOrder(String code, Long id);
+    OrderResDto getInfoOrderBy(String code);
 
     Page<OrderResDto> findAllOrder(Pageable pageable);
 
     void editOrderProcess(Long id, String status);
+    OrderEmployeeResDto getInfoOrder(String code, Long id);
+
 }

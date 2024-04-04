@@ -47,18 +47,21 @@ public class Order {
 
     private LocalTime timeStart;
 
-    private LocalTime timeEnd;
-
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> listOrderDetail;
+    private LocalTime timeEnd;
 
     public OrderResDto toResDto() {
         return new OrderResDto(id, user.toUserResDto(),
                 category.getName(),address, statusOrder,
                 totalTimeApprox.toString(), totalPrice,
-                String.valueOf(workDay), String.valueOf(timeStart),
-                currentlyCode, String.valueOf(createdAt),
-                listOrderDetail.stream().map(OrderDetail::toResDto).collect(Collectors.toList()));
+                String.valueOf(workDay),
+                String.valueOf(timeStart),
+                currentlyCode,
+                String.valueOf(createdAt),
+                listOrderDetail.stream().map(OrderDetail::toResDto).collect(Collectors.toList())
+                );
+
     }
 
 }

@@ -25,6 +25,7 @@ public class OrderRestController {
         return ResponseEntity.ok().build();
     }
 
+
     @GetMapping("/info-order/{code}/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<?> getOrderByCode(@PathVariable String code, @PathVariable Long id) {
@@ -32,17 +33,11 @@ public class OrderRestController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('USER')")
+//    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.ok().build();
-    }
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> getAllOrder(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
