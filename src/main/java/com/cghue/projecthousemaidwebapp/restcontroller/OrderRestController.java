@@ -2,6 +2,7 @@ package com.cghue.projecthousemaidwebapp.restcontroller;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
 import com.cghue.projecthousemaidwebapp.service.IOrderService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +16,7 @@ public class OrderRestController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public ResponseEntity<?> createOrder(@RequestBody OrderReqDto orderReqDto) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderReqDto orderReqDto) throws MessagingException {
         orderService.createOrder(orderReqDto);
 //        return ResponseEntity.ok().build();
         return ResponseEntity.ok().build();

@@ -2,6 +2,7 @@ package com.cghue.projecthousemaidwebapp.restcontroller;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
 import com.cghue.projecthousemaidwebapp.service.IOrderService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class TestAPI {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<?> createOrder(@RequestBody OrderReqDto orderReqDto) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderReqDto orderReqDto) throws MessagingException {
         orderService.createOrder(orderReqDto);
         return ResponseEntity.ok().build();
 //        return ResponseEntity.badRequest().build();

@@ -50,12 +50,12 @@ public class SpringSecurity {
                                 .requestMatchers("/api/categories").permitAll()
                                 .requestMatchers("/api/jobs/**").permitAll()
                                 .requestMatchers("/confirm").hasRole("USER")
-                                .requestMatchers("/api/users/current-user/**").hasRole("USER")
+                                .requestMatchers("/api/users/current-user/**").permitAll()
                                 .requestMatchers("/api/orders/info-order/**").hasRole("USER")
-//                                .requestMatchers("/api/orders/*").permitAll()
                                 .requestMatchers("/api/users/**").permitAll()
-//                                .requestMatchers(HttpMethod.GET,"/api/categories").permitAll()
                                 .requestMatchers("/api/dash-boards/employees").permitAll()
+
+
 //                                .requestMatchers(HttpMethod.POST,"/api/orders").permitAll()
 //                                .requestMatchers("/api/ratings").permitAll()
 //                                .requestMatchers(HttpMethod.GET,"/api/jobs").permitAll()
