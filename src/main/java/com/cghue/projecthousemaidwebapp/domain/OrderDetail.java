@@ -1,6 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
-import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderDetailResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderDetailResDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

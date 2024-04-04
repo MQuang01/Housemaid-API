@@ -1,4 +1,4 @@
-package com.cghue.projecthousemaidwebapp.domain.dto.res;
+package com.cghue.projecthousemaidwebapp.domain.dto.res.order;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;

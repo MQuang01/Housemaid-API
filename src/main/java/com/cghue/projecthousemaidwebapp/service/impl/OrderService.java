@@ -4,9 +4,11 @@ import com.cghue.projecthousemaidwebapp.domain.Order;
 import com.cghue.projecthousemaidwebapp.domain.OrderEmployee;
 import com.cghue.projecthousemaidwebapp.domain.User;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
-import com.cghue.projecthousemaidwebapp.domain.dto.res.OrderResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderEmployeeResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
+import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrderEmployee;
 import com.cghue.projecthousemaidwebapp.repository.*;
 import com.cghue.projecthousemaidwebapp.service.IOrderService;
 import com.cghue.projecthousemaidwebapp.utils.AppConstant;
@@ -19,9 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @Service
@@ -62,10 +62,12 @@ public class OrderService implements IOrderService {
         order.setTotalTimeApprox(orderReqDto.getTotalTimeApprox());
         order.setWorkDay(LocalDate.parse(orderReqDto.getWorkDay()));
         order.setTimeStart(FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()));
+        order.setTimeEnd(FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).plusMinutes(orderReqDto.getTotalTimeApprox()));
         order.setStatusOrder(EStatusOrder.WAITING);
         order.setCreatedAt(LocalDate.now());
 
         String shiftReq = "";
+        // giờ bắt đầu giờ kết thúc
         for (EShift shift : EShift.values()) {
             if (FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isAfter(shift.getStartTime())
                     && FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isBefore(shift.getEndTime())) {
@@ -74,18 +76,20 @@ public class OrderService implements IOrderService {
             }
         }
 
-        List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), shiftReq);
+        //
+        if (shiftReq.isEmpty()) {
+            throw new IllegalArgumentException("Ca làm việc đã kết thúc, vui lòng chọn giờ khác");
+        } else {
+            List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), shiftReq);
 
+            if (listEmployeeFree.size() < orderReqDto.getQuantityEmployee()) {
+                throw new IllegalArgumentException("Không đủ nhân viên yêu cầu");
+            }
 
-        if (listEmployeeFree.size() < orderReqDto.getQuantityEmployee()) {
-            throw new IllegalArgumentException("Không đủ nhân viên yêu cầu");
+            orderRepository.save(order);
+            createOrderEmployee(order, listEmployeeFree); //khoan lưu lại đợi xác nhận mail
         }
-
-        orderRepository.save(order);
-
-//        createOrderEmployee(order, listEmployeeFree); khoan lưu lại đợi xác nhận mail
-
-        emailService.sendEmail(user.getEmail(), "THÔNG TIN ĐẶT LỊCH CỦA BẠN", SendEmail.EmailScheduledSuccessfully(user.getUsername(), order.getWorkDay().toString(), order.getTimeStart().toString(), String.format(AppConstant.getUrlConfirmOrder(), code), AppConstant.getSignature()));
+        emailService.sendEmail(user.getEmail(), "THÔNG TIN ĐẶT LỊCH CỦA BẠN", SendEmail.EmailScheduledSuccessfully(user.getUsername(), order.getWorkDay().toString(), order.getTimeStart().toString(), String.format(AppConstant.getUrlConfirmOrder(), code, orderReqDto.getUserId()), AppConstant.getSignature()));
 
         return order.toResDto();
     }
@@ -108,14 +112,16 @@ public class OrderService implements IOrderService {
 
     @Override
     public boolean deleteOrder(Long id) {
-        return false;
+        orderRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public OrderResDto getInfoOrder(String code) {
+    public OrderEmployeeResDto getInfoOrder(String code, Long id) {
         String[] parts = code.split("\\$");
         String extractedCode = parts[1];
-        return orderRepository.findByCurrentlyCode(extractedCode).toResDto();
+        return orderRepository.findByCurrentlyCode(extractedCode, id);
+//        return null;
     }
 
     @Override
@@ -146,7 +152,9 @@ public class OrderService implements IOrderService {
             OrderEmployee orderEmployee = new OrderEmployee();
             orderEmployee.setOrder(order);
             orderEmployee.setEmployee(user);
+            orderEmployee.setStatus(EStatusOrderEmployee.WAITING);
             orderEmployeeRepository.save(orderEmployee);
+
         }
     }
 }

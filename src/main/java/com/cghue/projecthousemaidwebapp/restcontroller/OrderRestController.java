@@ -36,7 +36,7 @@ public class OrderRestController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllOrder(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<?> getAllOrder(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(orderService.findAllOrder(pageable));
     }
 
