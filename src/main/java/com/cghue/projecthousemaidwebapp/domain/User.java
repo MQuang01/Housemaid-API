@@ -86,7 +86,7 @@ public class User {
     public UserDetailResDto toUserDetailResDto() {
         return new UserDetailResDto(
                 this.id, this.fullName, this.email, this.address, this.phone, this.dob.toString(),
-                this.gender.name(), this.username, this.fileInfo.toResDto() != null ? this.fileInfo.toResDto() : null,
+                this.gender.name(), this.username, this.fileInfo != null ? this.fileInfo.toResDto() : null,
                 this.shift != null ? this.shift.name() : "",
                 this.userRoles.stream().map(UserRole::toUserRoleResDto).collect(Collectors.toList())
         );
