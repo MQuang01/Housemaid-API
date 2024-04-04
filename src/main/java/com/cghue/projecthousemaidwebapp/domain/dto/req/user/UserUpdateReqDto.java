@@ -21,8 +21,7 @@ public record UserUpdateReqDto(
         String typeUser,
         @NotBlank(message = "Gender must not be blank")
         @Pattern(regexp = "^(MALE|FEMALE|OTHER)$", message = "Gender is incorrect")
-        String gender,
-        String shift
+        String gender
 
 ) {
 }

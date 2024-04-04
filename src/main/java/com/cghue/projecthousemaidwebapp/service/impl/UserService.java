@@ -7,7 +7,6 @@ import com.cghue.projecthousemaidwebapp.domain.dto.req.user.UserUpdateReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.ListCustomerResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserDetailResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
-import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import com.cghue.projecthousemaidwebapp.repository.FileInfoRepository;
 import com.cghue.projecthousemaidwebapp.repository.IRoleRepository;
@@ -30,7 +29,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @Service
@@ -82,14 +80,6 @@ public class UserService implements IUserService, UserDetailsService {
         existingUser.setPhone(userEdit.phone());
         existingUser.setDob(LocalDate.parse(userEdit.dob()));
         existingUser.setGender(EGender.valueOf(userEdit.gender()));
-        if (userEdit.shift() != null) {
-            existingUser.setShift(EShift.valueOf(userEdit.shift()));
-            existingUser.setTypeUser(ETypeUser.EMPLOYEE);
-        } else {
-            existingUser.setTypeUser(ETypeUser.CUSTOMER);
-            existingUser.setShift(null);
-        }
-
         userRepository.save(existingUser);
     }
 
@@ -148,14 +138,6 @@ public class UserService implements IUserService, UserDetailsService {
                 passwordEncoder.encode(user.password())
         );
         userNew.setFileInfo(fileInfo);
-
-        if (ETypeUser.valueOf(user.typeUser()).equals(ETypeUser.EMPLOYEE)) {
-            if(user.shift() != null) {
-                userNew.setShift(EShift.valueOf(user.shift()));
-            }else {
-                throw new IllegalArgumentException("Employee must have shift");
-            }
-        }
 
         userNew.setCreatedAt(LocalDate.now());
 
