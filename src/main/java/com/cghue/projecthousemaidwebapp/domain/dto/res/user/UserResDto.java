@@ -2,14 +2,11 @@ package com.cghue.projecthousemaidwebapp.domain.dto.res.user;
 
 import com.cghue.projecthousemaidwebapp.domain.dto.res.FileInfoResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EGender;
-import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -28,7 +25,6 @@ public class UserResDto {
     private Boolean isActive;
     private String username;
     private String password;
-    private EShift shift;
     private String createdAt;
     private FileInfoResDto fileInfoResDto;
 }

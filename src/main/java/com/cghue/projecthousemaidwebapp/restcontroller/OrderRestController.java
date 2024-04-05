@@ -16,9 +16,8 @@ public class OrderRestController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public ResponseEntity<?> createOrder(@RequestBody OrderReqDto orderReqDto) throws MessagingException {
+    public ResponseEntity<Void> createOrder(@RequestBody OrderReqDto orderReqDto) throws MessagingException {
         orderService.createOrder(orderReqDto);
-//        return ResponseEntity.ok().build();
         return ResponseEntity.ok().build();
     }
 

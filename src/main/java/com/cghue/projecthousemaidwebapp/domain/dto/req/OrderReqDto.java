@@ -22,8 +22,8 @@ public class OrderReqDto {
     private Double totalPrice;
     private Integer quantityEmployee;
     private String workDay;
-    private String timeStart;
-
+    private String startTime;
+    private String endTime;
     private List<OrderDetailReqDto> listOrderDetail;
 
 

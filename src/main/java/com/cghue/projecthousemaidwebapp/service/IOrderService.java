@@ -12,7 +12,7 @@ import java.util.List;
 public interface IOrderService {
     Page<OrderResDto> findAllWithSearch(int page, int size);
 
-    OrderResDto createOrder(OrderReqDto orderReqDto) throws MessagingException;
+    void createOrder(OrderReqDto orderReqDto) throws MessagingException;
 
     OrderResDto getOrderById(Long id);
 

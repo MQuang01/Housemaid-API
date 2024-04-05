@@ -7,7 +7,6 @@ import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderDetailReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderEmployeeResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
-import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrderEmployee;
 import com.cghue.projecthousemaidwebapp.repository.*;
@@ -18,11 +17,11 @@ import com.cghue.projecthousemaidwebapp.utils.SendEmail;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -45,7 +44,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public OrderResDto createOrder(OrderReqDto orderReqDto) {
+    public void createOrder(OrderReqDto orderReqDto) {
         User user = userRepository.findById(orderReqDto.getUserId()).get();
         List<Order> listOrder = orderRepository.findAllByUser(user);
 
@@ -65,33 +64,21 @@ public class OrderService implements IOrderService {
         order.setTotalPrice(orderReqDto.getTotalPrice());
         order.setTotalTimeApprox(orderReqDto.getTotalTimeApprox());
         order.setWorkDay(LocalDate.parse(orderReqDto.getWorkDay()));
-        order.setTimeStart(FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()));
-        order.setTimeEnd(FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).plusMinutes(orderReqDto.getTotalTimeApprox()));
+        order.setTimeStart(FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getStartTime()));
+        order.setTimeEnd(LocalTime.parse(orderReqDto.getEndTime()));
         order.setStatusOrder(EStatusOrder.WAITING);
         order.setCreatedAt(LocalDate.now());
 
-        String shiftReq = "";
-        // giờ bắt đầu giờ kết thúc
-        for (EShift shift : EShift.values()) {
-            if (FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isAfter(shift.getStartTime())
-                    && FormatTimeAppUtil.TO_LOCALTIME(orderReqDto.getTimeStart()).isBefore(shift.getEndTime())) {
-                shiftReq = shift.toString();
-                break;
-            }
+
+        List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), orderReqDto.getStartTime(), orderReqDto.getEndTime());
+
+        if (listEmployeeFree.size() < orderReqDto.getQuantityEmployee()) {
+            throw new IllegalArgumentException("Không đủ nhân viên yêu cầu");
         }
 
-        if (shiftReq.isEmpty()) {
-            throw new IllegalArgumentException("Ca làm việc đã kết thúc, vui lòng chọn giờ khác");
-        } else {
-            List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), shiftReq);
+        orderRepository.save(order);
+        createOrderEmployee(order, listEmployeeFree); //khoan lưu lại đợi xác nhận mail
 
-            if (listEmployeeFree.size() < orderReqDto.getQuantityEmployee()) {
-                throw new IllegalArgumentException("Không đủ nhân viên yêu cầu");
-            }
-
-            orderRepository.save(order);
-            createOrderEmployee(order, listEmployeeFree); //khoan lưu lại đợi xác nhận mail
-        }
 
         StringBuilder htmlContentBuilder = new StringBuilder();
         htmlContentBuilder.append("<!DOCTYPE html>");
@@ -121,7 +108,7 @@ public class OrderService implements IOrderService {
             double totalPriceRow = 0;
             if (item.getQuantity() == null) {
                 totalPriceRow += item.getHouseSize() * jobRepository.findById(item.getId()).get().getPrice();
-            }else {
+            } else {
                 totalPriceRow += item.getQuantity() * jobRepository.findById(item.getId()).get().getPrice();
             }
 
@@ -154,7 +141,6 @@ public class OrderService implements IOrderService {
             e.printStackTrace();
         }
 
-        return order.toResDto();
     }
 
 
@@ -222,7 +208,6 @@ public class OrderService implements IOrderService {
             orderEmployee.setEmployee(user);
             orderEmployee.setStatus(EStatusOrderEmployee.WAITING);
             orderEmployeeRepository.save(orderEmployee);
-
         }
     }
 

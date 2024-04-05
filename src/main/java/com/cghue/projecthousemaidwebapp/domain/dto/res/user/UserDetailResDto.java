@@ -14,7 +14,6 @@ public record UserDetailResDto(
         String gender,
         String username,
         FileInfoResDto fileInfoResDto,
-        String shift,
         List<UserRoleResDto> roles
 
 ) {

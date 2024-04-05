@@ -1,7 +1,6 @@
 package com.cghue.projecthousemaidwebapp.repository;
 
 import com.cghue.projecthousemaidwebapp.domain.User;
-import com.cghue.projecthousemaidwebapp.domain.enumeration.EShift;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.ETypeUser;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -19,13 +18,13 @@ public interface IUserRepository extends JpaRepository<User, Long> {
                     "SELECT oe.employee_id FROM users u " +
                     "inner join order_employees oe on u.id = oe.employee_id " +
                     "inner join orders o on oe.order_id = o.id " +
-                    "where o.status_order = 'PROCESS' " +
-                    ") and u.type_user = 'EMPLOYEE' " +
+                    "where o.status_order = 'PROCESS'" +
+                    "and ((o.time_start >= :timeStart AND o.time_end <= :timeEnd) " +
+                    "OR (o.time_start < :timeStart AND o.time_end > :timeEnd))) and u.type_user = 'EMPLOYEE' " +
                     "and u.is_active = true " +
-                    "and u.shift = :shift " +
-                    "or u.shift = 'SHIFT_3' LIMIT :limit" , nativeQuery = true
+                    "ORDER BY RAND() LIMIT :limit" , nativeQuery = true
     )
-    List<User> findAllEmployeeFreeTime(int limit, String shift);
+    List<User> findAllEmployeeFreeTime(int limit, String timeStart, String timeEnd);
 
     @Query("SELECT u FROM User u WHERE u.typeUser = :type AND u.fullName LIKE %:name%")
     Page<User> findAllUserWithSearch(Pageable pageable, @Param("name") String name, @Param("type") ETypeUser type);
