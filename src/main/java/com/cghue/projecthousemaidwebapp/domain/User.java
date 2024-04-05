@@ -61,6 +61,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserRole> userRoles;
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
+    private List<OrderEmployee> orderEmployees;
     //Register Customer
     public User(String fullName, String email,
                 String address, String phone, LocalDate dob,

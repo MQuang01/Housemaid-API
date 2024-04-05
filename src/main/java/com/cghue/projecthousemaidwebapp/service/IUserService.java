@@ -19,7 +19,7 @@ import java.util.Optional;
 public interface IUserService {
 
     void register(RegisterReqDto userNew, MultipartFile avatar) throws IOException;
-    void update(Long id, UserUpdateReqDto userEdit);
+    void update(Long id, UserUpdateReqDto userEdit, MultipartFile avatar) throws IOException;
     UserDetailResDto getUserDetailBy(Long id);
     Page<ListCustomerResDto> getAllUserBy(Pageable pageable, String search, ETypeUser typeUser);
     String login(UserLoginReqDto userLogin);

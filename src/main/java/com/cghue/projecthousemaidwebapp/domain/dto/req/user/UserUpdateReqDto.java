@@ -16,9 +16,6 @@ public record UserUpdateReqDto(
         String phone,
         @NotBlank(message = "Date of birth must not be blank")
         String dob,
-        @NotBlank(message = "Type user must not be blank")
-        @Pattern(regexp = "^(CUSTOMER|EMPLOYEE)$", message = "Type user is incorrect")
-        String typeUser,
         @NotBlank(message = "Gender must not be blank")
         @Pattern(regexp = "^(MALE|FEMALE|OTHER)$", message = "Gender is incorrect")
         String gender

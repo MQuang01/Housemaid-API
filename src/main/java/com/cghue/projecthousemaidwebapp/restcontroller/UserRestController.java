@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -28,12 +31,14 @@ public class UserRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id,
-                                        @Valid @RequestBody UserUpdateReqDto userEdit) {
-        iUserService.update(id, userEdit);
+                                        @Valid UserUpdateReqDto userEdit,
+                                        @RequestParam(value = "avatar", required = false) MultipartFile avatar) throws IOException {
+        iUserService.update(id, userEdit, avatar);
         return ResponseEntity.ok("User update successfully!");
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         iUserService.delete(id);
         return ResponseEntity.ok("User delete successfully!");
