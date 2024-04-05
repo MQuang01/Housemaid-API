@@ -11,6 +11,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/dash-boards")
@@ -38,8 +41,9 @@ public class DashboardRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id,
-                                              @Valid @RequestBody UserUpdateReqDto userEdit) {
-        userService.update(id, userEdit);
+                                        @Valid UserUpdateReqDto userEdit,
+                                        @RequestParam(value = "avatar", required = false) MultipartFile avatar) throws IOException {
+        userService.update(id, userEdit, avatar);
         return ResponseEntity.ok("User update successfully!");
     }
 

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -60,9 +61,10 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void update(Long id, UserUpdateReqDto userEdit) {
+    public void update(Long id, UserUpdateReqDto userEdit, MultipartFile avatar) throws IOException {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cannot find the user you are looking for"));
 
+        FileInfo fileInfo = uploadService.saveAvatar(avatar);
         if(!userEdit.email().equals(existingUser.getEmail())) {
             if(userRepository.existsUsersByEmailIgnoreCaseOrPhoneOrUsernameIgnoreCase(userEdit.email(), null, null)) {
                 throw new IllegalArgumentException("Email already exists");
@@ -74,6 +76,7 @@ public class UserService implements IUserService, UserDetailsService {
             }
         }
 
+        existingUser.setFileInfo(fileInfo);
         existingUser.setFullName(userEdit.fullName());
         existingUser.setEmail(userEdit.email());
         existingUser.setAddress(userEdit.address());
