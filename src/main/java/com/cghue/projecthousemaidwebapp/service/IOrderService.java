@@ -5,7 +5,6 @@ import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderEmployeeResDto
 import com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderResDto;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public interface IOrderService {
 
     List<OrderResDto> findAllOrder();
 
-    void editOrderProcess(Long id, String status);
+    void editStatusOrderEmployee(Long id, String status);
     OrderEmployeeResDto getInfoOrder(String code, Long id);
 
 }

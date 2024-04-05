@@ -2,8 +2,6 @@ package com.cghue.projecthousemaidwebapp.utils;
 
 public class SendEmail {
 
-
-
     public static String EmailCooperate(String username, String sign) {
         return "Kính gửi " + username + ",\n\n"
                 + "Cảm ơn bạn đã đăng ký hợp tác thành công với chúng tôi!\n"
@@ -32,16 +30,25 @@ public class SendEmail {
                 + "Thời gian: " + time + "\n\n"
                 + "Vui lòng xác nhận đặt lịch vệ sinh bằng cách truy cập đường liên kết sau:\n"
                 + url + "\n\n"
-                + "Cám ơn bạn đã sử dụng dịch vụ của chúng tôi.\n\n"
+                + "Cám ơn bạn đã sử dụng dịch vụ của chúng tôi.\n"
+                + "Chúng tôi sẽ liên lạc bạn trong thời gian sớm nhất.\n\n"
                 + "Chúc bạn một ngày tốt lành!\n\n"
                 + "Trân trọng,\n\n"
                 + sign;
     }
 
-    public static String ExamScheduleReminder(String name, String bookingDate, String bookingTime, String sign) {
+    public static String ExamScheduleReminderConfirm(String name, String bookingDate, String bookingTime, String sign) {
         return "Xin chào " + name + ",\n\n"
                 + "Bạn đã đặt lịch vệ sinh vào ngày " + bookingDate + " vào lúc " + bookingTime + "\n"
                 + "Chúng tôi sẽ đến đúng giờ!\n"
+                + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n\n"
+                + "Trân trọng,\n\n"
+                + sign;
+    }
+
+    public static String ExamScheduleReminderReject(String name, String sign) {
+        return "Xin chào " + name + ",\n\n"
+                + "Xin lỗi quý khách, yêu cầu quý khách đã bị hủy bỏ" + "\n"
                 + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.\n\n"
                 + "Trân trọng,\n\n"
                 + sign;

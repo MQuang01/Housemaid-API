@@ -15,16 +15,24 @@ import java.util.Optional;
 public interface IUserRepository extends JpaRepository<User, Long> {
     @Query( value =
             "Select u.* from users u where u.id not in (" +
-                    "SELECT oe.employee_id FROM users u " +
-                    "inner join order_employees oe on u.id = oe.employee_id " +
-                    "inner join orders o on oe.order_id = o.id " +
-                    "where o.status_order = 'PROCESS'" +
-                    "and ((o.time_start >= :timeStart AND o.time_end <= :timeEnd) " +
-                    "OR (o.time_start < :timeStart AND o.time_end > :timeEnd))) and u.type_user = 'EMPLOYEE' " +
+                    "SELECT oe.employee_id " +
+                    "FROM users u " +
+                    "INNER JOIN order_employees oe ON u.id = oe.employee_id " +
+                    "INNER JOIN orders o ON oe.order_id = o.id " +
+                    "WHERE o.status_order = 'PROCESS' " +
+                    "AND o.work_day = :workDay " +
+                    "AND ( " +
+                    "    (:timeStart BETWEEN o.time_start AND o.time_end OR :timeEnd BETWEEN o.time_start AND o.time_end) " +
+                    "    OR " +
+                    "    (:timeStart <= o.time_start AND :timeEnd >= o.time_end) " +
+                    ") " +
+                    "OR (o.time_start < :timeStart AND o.time_end > :timeEnd)" +
+                    ") " +
+                    "and u.type_user = 'EMPLOYEE' " +
                     "and u.is_active = true " +
                     "ORDER BY RAND() LIMIT :limit" , nativeQuery = true
     )
-    List<User> findAllEmployeeFreeTime(int limit, String timeStart, String timeEnd);
+    List<User> findAllEmployeeFreeTime(int limit, String timeStart, String timeEnd, String workDay);
 
     @Query("SELECT u FROM User u WHERE u.typeUser = :type AND u.fullName LIKE %:name%")
     Page<User> findAllUserWithSearch(Pageable pageable, @Param("name") String name, @Param("type") ETypeUser type);

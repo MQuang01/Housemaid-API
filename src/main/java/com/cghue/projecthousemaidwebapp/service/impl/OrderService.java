@@ -1,6 +1,7 @@
 package com.cghue.projecthousemaidwebapp.service.impl;
 
 import com.cghue.projecthousemaidwebapp.domain.Order;
+import com.cghue.projecthousemaidwebapp.domain.OrderDetail;
 import com.cghue.projecthousemaidwebapp.domain.OrderEmployee;
 import com.cghue.projecthousemaidwebapp.domain.User;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.OrderDetailReqDto;
@@ -16,6 +17,7 @@ import com.cghue.projecthousemaidwebapp.utils.FormatTimeAppUtil;
 import com.cghue.projecthousemaidwebapp.utils.SendEmail;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 
 import org.springframework.stereotype.Service;
@@ -36,6 +38,7 @@ public class OrderService implements IOrderService {
     private final IJobRepository jobRepository;
     private final IOrderEmployeeRepository orderEmployeeRepository;
     private final EmailService emailService;
+    private final IOrderDetailRepository orderDetailRepository;
 
 
     @Override
@@ -70,7 +73,8 @@ public class OrderService implements IOrderService {
         order.setCreatedAt(LocalDate.now());
 
 
-        List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), orderReqDto.getStartTime(), orderReqDto.getEndTime());
+
+        List<User> listEmployeeFree = userRepository.findAllEmployeeFreeTime(orderReqDto.getQuantityEmployee(), orderReqDto.getStartTime(), orderReqDto.getEndTime(), orderReqDto.getWorkDay());
 
         if (listEmployeeFree.size() < orderReqDto.getQuantityEmployee()) {
             throw new IllegalArgumentException("Không đủ nhân viên yêu cầu");
@@ -78,7 +82,17 @@ public class OrderService implements IOrderService {
 
         orderRepository.save(order);
         createOrderEmployee(order, listEmployeeFree); //khoan lưu lại đợi xác nhận mail
-
+        orderReqDto.getListOrderDetail().forEach(
+                orderDetailReqDto -> {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrder(order);
+                    orderDetail.setHouseSize(orderDetailReqDto.getHouseSize());
+                    orderDetail.setQuantity(orderDetailReqDto.getQuantity());
+                    orderDetail.setPrice(jobRepository.findById(orderDetailReqDto.getId()).get().getPrice());
+                    orderDetail.setJob(jobRepository.findById(orderDetailReqDto.getId()).get());
+                    orderDetailRepository.save(orderDetail);
+                }
+        );
 
         StringBuilder htmlContentBuilder = new StringBuilder();
         htmlContentBuilder.append("<!DOCTYPE html>");
@@ -140,7 +154,6 @@ public class OrderService implements IOrderService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -184,19 +197,32 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public void editOrderProcess(Long id, String status) {
+    public void editStatusOrderEmployee(Long id, String status) {
         Order orderEdit = orderRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Không tìm thấy order theo id:" + id));
-//        switch (status) {
-//            case "WAITING":
-//                orderEdit.setStatusOrder(EStatusOrder.WAITING);
-//            case "COMPLETE":
-//                orderEdit.setStatusOrder(EStatusOrder.COMPLETE);
-//            case "PROCESS":
-//                orderEdit.setStatusOrder(EStatusOrder.PROCESS);
-//        }
-        EStatusOrder statusOrder = EStatusOrder.valueOf(status);
-        orderEdit.setStatusOrder(statusOrder);
+        switch (status) {
+            case "WAITING" -> orderEdit.setStatusOrder(EStatusOrder.WAITING);
+            case "COMPLETE" -> {
+                orderEdit.setStatusOrder(EStatusOrder.COMPLETE);
+            }
+            case "PROCESS" -> {
+                orderEdit.setStatusOrder(EStatusOrder.PROCESS);
+                orderEdit.getListEmployee().forEach(orderEmployee -> {
+                    orderEmployee.setStatus(EStatusOrderEmployee.CONFIRM);
+                    orderEmployeeRepository.save(orderEmployee);
+                    emailService.sendEmailSimple(orderEdit.getUser().getEmail(), "ĐẶT LỊCH THÀNH CÔNG", SendEmail.ExamScheduleReminderConfirm(orderEdit.getUser().getUsername(), orderEdit.getWorkDay().toString(), orderEdit.getTimeStart().toString(), AppConstant.getSignature()));
+                });
+            }
+            case "CANCEL" -> {
+                orderEdit.setStatusOrder(EStatusOrder.CANCEL);
+                orderEdit.getListEmployee().forEach(orderEmployee -> {
+                    orderEmployee.setStatus(EStatusOrderEmployee.BUSY);
+                    orderEmployeeRepository.save(orderEmployee);
+                });
+                emailService.sendEmailSimple(orderEdit.getUser().getEmail(), "HỦY YÊU CẦU ĐẶT LỊCH", SendEmail.ExamScheduleReminderReject(orderEdit.getUser().getUsername(), AppConstant.getSignature()));
+            }
+        }
+
         orderRepository.save(orderEdit);
     }
 
@@ -210,5 +236,17 @@ public class OrderService implements IOrderService {
             orderEmployeeRepository.save(orderEmployee);
         }
     }
+
+//    public void createOrderDetails(Order order, List<OrderDetailReqDto> listOrderDetail ){
+//
+//        for (OrderDetailReqDto orderDetailReqDto : listOrderDetail) {
+//            OrderDetail orderDetail = new OrderDetail();
+//            orderDetail.setOrder(order);
+//            orderDetail.setJob(jobRepository.findById(orderDetailReqDto.getId()).get());
+//            orderDetail.setQuantity(orderDetailReqDto.getQuantity());
+//            orderDetail.setPrice(orderDetailReqDto.getPrice());
+//            orderDetailRepository.save(orderDetail);
+//        }
+//    }
 
 }

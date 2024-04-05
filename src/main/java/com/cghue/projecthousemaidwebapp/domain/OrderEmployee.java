@@ -30,6 +30,6 @@ public class OrderEmployee {
     private User employee;
 
     public EmployeeOrderResDto employeeOrderResDto() {
-        return new EmployeeOrderResDto(employee.getFullName(), employee.getEmail(), employee.getPhone(), employee.getFileInfo().getFileUrl(), employee.getGender().toString());
+        return new EmployeeOrderResDto(employee.getFullName(), employee.getEmail(), employee.getPhone(), employee.getFileInfo() != null ? employee.getFileInfo().getFileUrl() : null, employee.getGender().toString());
     }
 }
