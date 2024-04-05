@@ -49,6 +49,10 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> listOrderDetail;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderEmployee> listEmployee;
+
     private LocalTime timeEnd;
 
     public OrderResDto toResDto() {
@@ -59,9 +63,9 @@ public class Order {
                 String.valueOf(timeStart),
                 currentlyCode,
                 String.valueOf(createdAt),
-                listOrderDetail.stream().map(OrderDetail::toResDto).collect(Collectors.toList())
+                listOrderDetail.stream().map(OrderDetail::toResDto).collect(Collectors.toList()),
+                listEmployee.stream().map(OrderEmployee::employeeOrderResDto).collect(Collectors.toList())
                 );
-
     }
 
 }

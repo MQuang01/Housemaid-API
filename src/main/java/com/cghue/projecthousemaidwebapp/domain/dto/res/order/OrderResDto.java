@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain.dto.res.order;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.EmployeeOrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.user.UserResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrder;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,5 @@ public class OrderResDto {
     private String currentlyCode;
     private String createdAt;
     private List<OrderDetailResDto> listOrderDetail;
+    private List<EmployeeOrderResDto> listEmployee;
 }
