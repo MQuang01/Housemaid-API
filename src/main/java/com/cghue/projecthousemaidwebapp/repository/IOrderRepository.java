@@ -12,7 +12,7 @@ public interface IOrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByUser(User user);
 
     @Query("select new com.cghue.projecthousemaidwebapp.domain.dto.res.order.OrderEmployeeResDto" +
-            "(o.id, u.fullName, c.name, o.address, o.totalTimeApprox, o.totalPrice, o.workDay, o.timeStart, o.currentlyCode, o.createdAt, count(oe.employee.id)) " +
+            "(o.id, u.fullName, c.name, o.address, o.totalTimeApprox, o.totalPrice, o.workDay, o.timeStart, o.timeEnd, o.currentlyCode, o.createdAt, count(oe.employee.id)) " +
             "from OrderEmployee oe " +
             "join Order o on o.id = oe.order.id " +
             "join Category c on o.category.id = c.id " +

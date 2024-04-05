@@ -42,9 +42,9 @@ public class OrderRestController {
 
     @PutMapping("/update-status/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public ResponseEntity<?> updateOrderProcess(@PathVariable Long id,
-                                                @RequestParam String status) {
-        orderService.editOrderProcess(id, status);
+    public ResponseEntity<?> updateStatusOrderEmployee(@PathVariable Long id,
+                                                       @RequestParam String status) {
+        orderService.editStatusOrderEmployee(id, status);
         return ResponseEntity.ok("Thay đổi trạng thái thành công");
     }
 }

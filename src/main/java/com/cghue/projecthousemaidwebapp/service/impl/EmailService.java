@@ -33,18 +33,10 @@ public class EmailService {
     private String sender;
 
     public void sendEmail(String toEmail, String subject, String body, String htmlContent) throws MessagingException {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom(sender);
-//        message.setTo(toEmail);
-//        message.setText(body);
-//        message.setSubject(subject);
-//        javaMailSender.send(message);
         MimeMessage message = javaMailSender.createMimeMessage();
         message.setFrom(sender); // Thay thế bằng email của bạn
         message.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(toEmail));
         message.setSubject(subject);
-//        message.setHeader("Content-Type", "text/plain; charset=UTF-8");
-//        message.setHeader("Content-Transfer-Encoding", "quoted-printable");
         // Tạo một multipart
         Multipart multipart = new MimeMultipart();
 
@@ -125,5 +117,12 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-
+    public void sendEmailSimple(String toEmail, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(sender);
+        message.setTo(toEmail);
+        message.setText(body);
+        message.setSubject(subject);
+        javaMailSender.send(message);
+    }
 }

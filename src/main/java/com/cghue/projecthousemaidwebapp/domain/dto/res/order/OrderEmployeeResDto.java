@@ -25,13 +25,14 @@ public class OrderEmployeeResDto {
     private Double total;
     private String workDay;
     private String timeStart;
+    private String timeEnd;
     private String currentlyCode;
     private String createdAt;
     private Long quantityEmployee;
 
     // constructor
 
-    public OrderEmployeeResDto(Long id, String user, String orderName, String address, Integer totalTimeApprox, Double total, LocalDate workDay, LocalTime timeStart, String currentlyCode, LocalDate createdAt, Long quantityEmployee) {
+    public OrderEmployeeResDto(Long id, String user, String orderName, String address, Integer totalTimeApprox, Double total, LocalDate workDay, LocalTime timeStart, LocalTime timeEnd, String currentlyCode, LocalDate createdAt, Long quantityEmployee) {
         this.id = id;
         this.user = user;
         this.orderName = orderName;
@@ -40,6 +41,7 @@ public class OrderEmployeeResDto {
         this.total = total;
         this.workDay = workDay.toString();
         this.timeStart = timeStart.toString();
+        this.timeEnd = timeEnd.toString();
         this.currentlyCode = currentlyCode;
         this.createdAt = createdAt.toString();
         this.quantityEmployee = quantityEmployee;
