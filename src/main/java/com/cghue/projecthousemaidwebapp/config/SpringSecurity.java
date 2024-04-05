@@ -47,6 +47,7 @@ public class SpringSecurity {
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/api/categories/**").permitAll()
+                                .requestMatchers("/api/categories/jobs/**").permitAll()
                                 .requestMatchers("/api/categories").permitAll()
                                 .requestMatchers("/api/jobs/**").permitAll()
                                 .requestMatchers("/confirm").hasRole("USER")

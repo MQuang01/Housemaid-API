@@ -3,6 +3,7 @@ package com.cghue.projecthousemaidwebapp.service;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,4 +19,5 @@ public interface ICategoryService {
     CategoryResDto getCategoryBy(Long id);
     boolean updateCategory(Long id,CategoryReqDto categoryReqDto);
     boolean deleteCategory(Long id);
+    Page<JobListResDto> getAllJobsByCategoryId(Pageable  pageable, String search, Long id);
 }

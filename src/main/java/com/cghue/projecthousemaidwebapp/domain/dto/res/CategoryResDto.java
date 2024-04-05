@@ -13,4 +13,5 @@ public class CategoryResDto {
     private Long id;
     private String name;
     private FileInfoResDto fileInfo;
+    private Integer quantityJob;
 }
