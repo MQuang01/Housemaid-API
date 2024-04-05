@@ -1,5 +1,6 @@
 package com.cghue.projecthousemaidwebapp.domain;
 
+import com.cghue.projecthousemaidwebapp.domain.dto.res.EmployeeOrderResDto;
 import com.cghue.projecthousemaidwebapp.domain.enumeration.EStatusOrderEmployee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,8 @@ public class OrderEmployee {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private User employee;
+
+    public EmployeeOrderResDto employeeOrderResDto() {
+        return new EmployeeOrderResDto(employee.getFullName(), employee.getEmail(), employee.getPhone(), employee.getFileInfo().getFileUrl(), employee.getGender().toString());
+    }
 }
