@@ -31,6 +31,13 @@ public class CategoryRestController {
         return ResponseEntity.ok(iCategoryService.getAllCategoriesPage(pageable, search));
     }
 
+    @GetMapping("/jobs/{id}")
+    public ResponseEntity<?> getAllJobsByCategoryId(@PageableDefault(page = 0, size = 10) Pageable pageable,
+                                                    @RequestParam(defaultValue = "") String search,
+                                                    @PathVariable Long id) {
+        return ResponseEntity.ok(iCategoryService.getAllJobsByCategoryId(pageable, search, id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategoryBy(@PathVariable Long id) {
         return ResponseEntity.ok(iCategoryService.getCategoryBy(id));

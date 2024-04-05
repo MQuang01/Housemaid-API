@@ -31,8 +31,8 @@ public class Category {
 
     public CategoryResDto toResDto() {
         if (fileInfo == null) {
-            return new CategoryResDto(id, name, null);
+            return new CategoryResDto(id, name, null, jobs.size());
         }
-        return new CategoryResDto(id, name, fileInfo.toResDto());
+        return new CategoryResDto(id, name, fileInfo.toResDto(), jobs.size());
     }
 }

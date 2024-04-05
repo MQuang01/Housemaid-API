@@ -2,10 +2,13 @@ package com.cghue.projecthousemaidwebapp.service.impl;
 
 import com.cghue.projecthousemaidwebapp.domain.Category;
 import com.cghue.projecthousemaidwebapp.domain.FileInfo;
+import com.cghue.projecthousemaidwebapp.domain.Job;
 import com.cghue.projecthousemaidwebapp.domain.dto.req.CategoryReqDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryListResDto;
 import com.cghue.projecthousemaidwebapp.domain.dto.res.CategoryResDto;
+import com.cghue.projecthousemaidwebapp.domain.dto.res.JobListResDto;
 import com.cghue.projecthousemaidwebapp.repository.ICategoryRepository;
+import com.cghue.projecthousemaidwebapp.repository.IJobRepository;
 import com.cghue.projecthousemaidwebapp.repository.IRatingCategoryRepository;
 import com.cghue.projecthousemaidwebapp.service.ICategoryService;
 import com.cghue.projecthousemaidwebapp.service.IRatingCategoryService;
@@ -26,6 +29,7 @@ public class CategoryService implements ICategoryService {
     private final IRatingCategoryService ratingCategoryService;
     private final IRatingCategoryRepository ratingCategoryRepository;
     private final UploadService uploadService;
+    private final IJobRepository iJobRepository;
 
     @Override
     public List<CategoryListResDto> getAllCategories() {
@@ -76,5 +80,10 @@ public class CategoryService implements ICategoryService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Page<JobListResDto> getAllJobsByCategoryId(Pageable pageable, String search, Long id) {
+        return iJobRepository.findAllByNameContainingIgnoreCaseAndCategoryId(search, pageable, id).map(Job::toListResDto);
     }
 }
